@@ -1,0 +1,14 @@
+logo: /images/avatar.jpg
+han_type: zh-Hant
+menu:
+  首页: /
+  归档: /pigeonhole
+  关于: /about
+  魔方: https://codersyn.github.io/cube
+disqus:
+  short_name: webSyn
+icon:
+  rss: /atom.xml
+  bilibili: 38264344
+  cloudmusic: 278148839
+  github: codersyn
