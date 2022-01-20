@@ -6,17 +6,17 @@ tags:
 
 1. ## 搭建教程
    
-   + ### 1.1 准备工作
+   + ### 准备工作
      
-     + #### 1.1.1 新建一个Github仓库
+     + #### 新建一个Github仓库
        
        仓库命名格式为`你的用户名.github.io`，如我的github用户名为websyn，那仓库名就为`websyn.github.io`。
      
-     + #### 1.1.2 安装[Node.js](https://nodejs.org/zh-cn/)
+     + #### 安装[Node.js](https://nodejs.org/zh-cn/)
      
-     + #### 1.1.3 安装[Git](https://git-scm.com/)
+     + #### 安装[Git](https://git-scm.com/)
      
-     + #### 1.1.4 配置SSH keys
+     + #### 配置SSH keys
        
        鼠标右键 -> **Git Bash Here**
        
@@ -30,9 +30,9 @@ tags:
        
        回到Github，依次点击**你的头像 -> Settings -> SSH and GPG keys -> SSH keys -> New SSH key**，Title随便写，Key的输入框里粘贴刚才复制的密钥，保存。
    
-   + ### 1.2 安装Hexo
+   + ### 安装Hexo
      
-     + #### 1.2.1 安装
+     + #### 安装
        
        ```bash
        npm install hexo-cli -g
@@ -44,7 +44,7 @@ tags:
        
        *note: 因为天朝国情可能需要挂代理*。
      
-     + #### 1.2.2 配置`_comfig.yml`
+     + #### 配置`_config.yml`
        
        ```bash
        deploy:
@@ -55,7 +55,7 @@ tags:
        
        repo后面的地址请复制你的github仓库地址替换，注意复制SSH地址，不要复制https地址。
      
-     + #### 1.2.3 部署到Github
+     + #### 部署到Github
        
        ```bash
        hexo clean
@@ -65,7 +65,7 @@ tags:
        
        如果前面你的配置都正确的话，直接hexo三板斧就可以将你的博客上传到github上面了。
      
-     + #### 1.2.4 开启**Github Pages**
+     + #### 开启**Github Pages**
        
        进入你新建的仓库，这时候仓库下应该有一堆你刚才推送上来的网页文件，依次点击上方的Settings -> Pages，进去后选择master分支保存就开启了Pages，点击上方的域名即可访问你的网站。
        
@@ -73,17 +73,17 @@ tags:
 
 2. ## 使用教程
    
-   + ### 2.1 新建文章
+   + ### 新建文章
      
      `hexo new '文章名称'`，新建的文章为Markdown文件，在目录**blog\source\\_posts**下，打开即可编辑。
    
-   + ### 2.2 发布文章
+   + ### 发布文章
      
      `hexo clean`为清除缓存文件和已生成的静态文件，`hexo g`为生成静态文件，`hexo d`为部署静态文件到你的仓库。
      
      使用顺序不能错，可合并为`hexo clean & hexo g & hexo d`。
    
-   + ### 2.3 更换主题
+   + ### 更换主题
      
      hexo默认加载的主题是`landscape`，如果不喜欢可去[Themes | Hexo](https://hexo.io/themes/)挑选自己喜欢的主题。
      
@@ -93,7 +93,7 @@ tags:
 
 3. ## 备份设置
    
-   + ### 3.1 新建备份分支并推送到github
+   + ### 新建备份分支并推送到github
      
      ```bash
      git init
@@ -108,7 +108,7 @@ tags:
      
      以后每次有更新执行一下`git add .` -> `git commit -m '博客源文件'` -> `git push origin blog`就能把文件备份到github了。
    
-   + ### 3.2 还原备份
+   + ### 还原备份
      
      如果换了电脑操作，首先在新电脑上安装[Node.js](https://nodejs.org/zh-cn/)，安装[Git](https://git-scm.com/)，配置SSH keys，然后克隆github仓库：
      
