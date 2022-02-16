@@ -342,7 +342,7 @@ typora-root-url: ./
 
 + Windows版本
   
-  Qt5（[https://github.com/McDull-Github/Trojan-Qt5/releases](https://github.com/McDull-Github/Trojan-Qt5/releases)）
+  Qt5（[https://github.com/blue-githubz6kh/Trojan-Qt5/releases](https://github.com/blue-githubz6kh/Trojan-Qt5/releases)）
   V2rayN，两者皆可，自行下载。
 
 + Android版本
