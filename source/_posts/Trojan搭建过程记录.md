@@ -7,11 +7,7 @@ typora-root-url: ./
 
 > 因为最近做梯子的服务器到期了，所以重新搭一个，以前一直用的SSR，但是由于GFW的原因越来越不稳定了，所以这次采用Trojan，顺便做个记录。
 
-
-
 ## 前置条件
-
-
 
 + 国外VPS一枚（此处为CentOS 7系统，其他系统请自行更改对应命令）
 + SSH工具（此处用的[Xshell](https://www.netsarang.com/zh/free-for-home-school/)）
@@ -19,25 +15,19 @@ typora-root-url: ./
 + SSL证书
 + Trojan项目地址：[https://github.com/trojan-gfw/trojan](https://github.com/trojan-gfw/trojan)
 
-
-
 ## 准备工作
-
-
 
 ### 申请域名
 
 如果你已经有域名这步可跳过，因为我拿到的服务器是一年的，而我之前买的域名不足一年了，为了钱包的安全，我决定去申请一个免费域名。
 
-免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，	目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。
+免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，    目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。
 
 ![image-20210926145736363](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926145736363.png)
 
 *NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；③最好不要挂VPN申请，可能会出现卡验证邮箱的情况。
 
 注册过程无难点，就不再赘述，按照要求填入信息就好，注册成功后先放一边，然后进行下一步操作。
-
-
 
 ### 把域名放到DNSPod解析
 
@@ -69,8 +59,6 @@ typora-root-url: ./
 
 ![image-20210926191932287](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926191932287.png)
 
-
-
 ### 杂项
 
 + 关闭防火墙**或者**开放80和443端口（此处二选一即可）
@@ -78,9 +66,11 @@ typora-root-url: ./
   ```bash
   systemctl stop firewalld.service  #关闭防火墙
   ```
+  
   ```bash
   firewall-cmd --zone=public --add-port=80/tcp --permanent  #开放80端口同理80改为443为开放443端口
   ```
+  
   ```bash
   firewall-cmd --reload  #如果是选择开放端口那需要重载防火墙才能生效
   ```
@@ -102,6 +92,7 @@ typora-root-url: ./
   ```bash
   systemctl start crond
   ```
+  
   ```bash
   systemctl enable crond
   ```
@@ -117,13 +108,10 @@ typora-root-url: ./
   ```bash
   setsebool -P httpd_can_network_connect 1
   ```
+  
   CentOS反向代理需要配置SELinux允许httpd模块可以联网，否则服务器会返回502错误，如果出现SELinux is disabled错误，说明SELinux已经被彻底的关闭了，那可以直接跳过。
 
-
-
 ## 安装并配置nginx
-
-
 
 ### 安装nginx
 
@@ -138,8 +126,6 @@ typora-root-url: ./
   ```bash
   yum install -y nginx
   ```
-
-
 
 ### 配置nginx
 
@@ -184,10 +170,9 @@ typora-root-url: ./
       return 301 https://$host$request_uri;
   }
   ```
+  
   然后shift+zz保存退出即可。
   解释一下这些虚拟主机的一些细节：第一个server接收来自Trojan的流量，第二个server也是接收来自Trojan的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名，第三个server接收除127.0.0.1:80外的所有80端口的流量并重定向到443端口，这样便开启了全站https，可有效的防止恶意探测。
-
-
 
 ### 启动nginx
 
@@ -198,99 +183,82 @@ typora-root-url: ./
   ```
 
 + 让nginx开机自启
-
+  
   ```bash
   systemctl enable nginx
   ```
 
-
-
 ## 申请证书
-
-
 
 ### 安装证书
 
   这里使用acme.sh自动签发证书。
 
-  ```bash
-  curl  https://get.acme.sh | sh
-  exit
-  ```
+```bash
+curl  https://get.acme.sh | sh
+exit
+```
 
 此处注意先退出登录刷新一下，不然下面使用acme命令会提示没有该命令。
 
-
-
 ### 添加API密钥
 
-  ```bash
-  export DP_Id="1234"  #1234改为之前复制的dnspod的id
-  export DP_Key="token"  #token改为之前复制的dnspod的token
-  ```
-
-
+```bash
+export DP_Id="1234"  #1234改为之前复制的dnspod的id
+export DP_Key="token"  #token改为之前复制的dnspod的token
+```
 
 ### 申请证书
 
 + 注册Zerossl
   
   由于acme 3.0更改默认CA为Zerossl，所以申请步骤略微区别于Let's Encrypt，需要用到一个邮箱注册Zerossl。
+  
   ```bash
   acme.sh  --register-account  -m myemail@example.com --server zerossl  #myemail@example.com改为你自己的邮箱
   ```
 
 + 申请证书
-
+  
   ```bash
   acme.sh --issue --dns dns_dp -d syn.la  #syn.la改为你的域名
   ```
-
+  
   等待一会，出现这四个证书文件则为申请成功：
   
   ![image-20210926194858419](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926194858419.png)
   
   *注*：如果这里提示没有acme.sh命令，那`exit`退出再重新登录一下就行了，如果没有出现上图而是出现一串红色的信息，未申请成功的话，大概率是API密钥未添加成功，重新执行一遍添加API密钥的命令即可。
 
-
-
 ### 安装证书
 
-  ```bash
-  acme.sh --install-cert -d syn.la --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt  #使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把syn.la替换为你的域名
-  ```
-
-
+```bash
+acme.sh --install-cert -d syn.la --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt  #使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把syn.la替换为你的域名
+```
 
 ### 配置acme.sh自动更新
 
-  ```bash
-  acme.sh  --upgrade  --auto-upgrade
-  ```
+```bash
+acme.sh  --upgrade  --auto-upgrade
+```
+
   到这里不出意外就能访问你带https的域名了，如果你反向代理了百度的话，会进入百度的页面
-
-
 
 ## 安装并配置trojan
 
-
-
 ### 安装trojan
 
-  ```bash
-  sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
-  ```
-
-
+```bash
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
+```
 
 ### 编辑trojan配置
 
-  ```bash
-  vi /usr/local/etc/trojan/config.json
-  ```
+```bash
+vi /usr/local/etc/trojan/config.json
+```
+
 修改**password**为你喜好的密码，修改**cert**的地址为证书所在地址：`/usr/local/etc/certfiles/certificate.crt`，修改**key**地址为证书所在地址：`/usr/local/etc/certfiles/private.key`，shift+zz保存退出即可
-
-
 
 ### 启动trojan
 
@@ -306,8 +274,6 @@ typora-root-url: ./
   systemctl enable trojan
   ```
 
-
-
 ### 配置trojan自动加载更新后的证书
 
 + 编辑crontab文件
@@ -321,29 +287,28 @@ typora-root-url: ./
   ```bash
   0 0 1 * * killall -s SIGUSR1 trojan
   ```
+  
   shift+zz保存退出即可
-
-
 
 ## 安装bbr加速（可选）
 
+```bash
+wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
+```
 
-
-  ```bash
-  wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
-  ```
   放个一键脚本自己按要求操作吧，我实在写不动了...
-
-
 
 ## 安装客户端
 
-
-
 + Windows版本
   
-  Qt5（[https://github.com/blue-githubz6kh/Trojan-Qt5/releases](https://github.com/blue-githubz6kh/Trojan-Qt5/releases)）
-  V2rayN，两者皆可，自行下载。
+  [Trojan-Qt5](https://websyn.lanzoum.com/iQNi901epsyd)
+  
+  密码:bta2
+  
+  [V2rayN](https://github.com/2dust/v2rayN/releases)
+  
+  两者皆可，自行下载。
 
 + Android版本
   
@@ -352,7 +317,5 @@ typora-root-url: ./
 + iOS版本
   
   自行在App Store下载shadowrocket
-
-
 
 # ---END---
