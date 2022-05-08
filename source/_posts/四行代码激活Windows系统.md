@@ -23,14 +23,16 @@ slmgr.vbs /upk
 1. **Windows 11**
    
    ```bash
-   slmgr /ipk VK7JG-NPHTM-C97JM-9MPGT-3V66T
+   VK7JG-NPHTM-C97JM-9MPGT-3V66T
    ```
+   
+   win11直接复制密钥到设置里粘贴激活就行。
 
 2. **Windows 10**
-   
-   ```bash
-   slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
-   ```
+
+```bash
+slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
+```
 
 3. **Windows 7**
    

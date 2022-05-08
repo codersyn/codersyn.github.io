@@ -21,11 +21,11 @@ typora-root-url: ./
 
 如果你已经有域名这步可跳过，因为我拿到的服务器是一年的，而我之前买的域名不足一年了，为了钱包的安全，我决定去申请一个免费域名。
 
-免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，    目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。
+免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，~~所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，    目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。~~
 
-![image-20210926145736363](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926145736363.png)
+**最新可用的申请办法是直接挂代理申请，如果遇到技术错误导致域名未注册成功的话去百度找一个外国人信息修改你的资料就行了，因为挂代理它会检测你的ip地址，找ip地址对应的国家公民信息填上就行了**。
 
-*NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；③最好不要挂VPN申请，可能会出现卡验证邮箱的情况。
+*NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；~~③最好不要挂VPN申请，可能会出现卡验证邮箱的情况。~~
 
 注册过程无难点，就不再赘述，按照要求填入信息就好，注册成功后先放一边，然后进行下一步操作。
 
@@ -49,7 +49,7 @@ typora-root-url: ./
 
 保存即可。
 
-然后返回DNSPod把域名解析到你的服务器IP就行。至于为什么不使用Cloudflare，原因是无法添加freenom的域名。
+然后返回DNSPod把域名解析到你的服务器IP就行。~~至于为什么不使用Cloudflare，原因是无法添加freenom的域名~~。现在好像可以添加了，cf和dp随便用啥都行，用cf的话下面acme申请证书把dp的指令换成cf的就行。
 
 最后创建并查看api密钥复制备用，点击右上角的账号中心，选择**API密钥**：
 
@@ -173,8 +173,25 @@ typora-root-url: ./
   
   然后shift+zz保存退出即可。
   解释一下这些虚拟主机的一些细节：第一个server接收来自Trojan的流量，第二个server也是接收来自Trojan的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名，第三个server接收除127.0.0.1:80外的所有80端口的流量并重定向到443端口，这样便开启了全站https，可有效的防止恶意探测。
-
-### 启动nginx
+  
+  如果不想反代而是设置伪装站点，或者本身有网站，那把第一个server修改下就行：
+  
+  ```bash
+  server {
+      listen 127.0.0.1:80 default_server;
+  
+      server_name syn.la;  #此处的syn.la替换为你的域名
+  
+      location / {
+          root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
+          index  index.html index.htm; //定义站点的默认页
+      }
+  }
+  ```
+  
+  然后把你的网站文件放在`/usr/share/nginx/html`下就行了。
+  
+  ### 启动nginx
 
 + 启动nginx
   
@@ -222,6 +239,12 @@ export DP_Key="token"  #token改为之前复制的dnspod的token
   
   ```bash
   acme.sh --issue --dns dns_dp -d syn.la  #syn.la改为你的域名
+  ```
+  
+  如果要申请通配证书则如下：
+  
+  ```bash
+  acme.sh --issue --dns dns_dp -d syn.la -d *.syn.la  #syn.la改为你的域名
   ```
   
   等待一会，出现这四个证书文件则为申请成功：
@@ -318,4 +341,26 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
   
   自行在App Store下载shadowrocket
 
-# ---END---
+### 常用命令
+
++ 重载nginx配置
+  
+  ```bash
+  nginx -s reload
+  ```
+
++ trojan运行状态
+  
+  ```bash
+  systemctl status trojan
+  ```
+
++ 关闭trojan
+  
+  ```bash
+  systemctl stop trojan
+  ```
+  
+  
+  
+  # ---END---

@@ -26,7 +26,7 @@ tags:
        ssh-keygen -t rsa -C "you@example.com"
        ```
        
-       注意把`you@example.com`替换为你的邮箱，`Your Name`替换为你的用户名，然后一路回车，然后在**C:\Users\Administrator\\.ssh**目录下找到`id_rsa.pub`文件，用记事本打开复制里面的内容。
+       注意把`you@example.com`替换为你的邮箱，`Your Name`替换为你的用户名，然后一路回车，然后在**C:\Users\你的用户名\\.ssh**目录下找到`id_rsa.pub`文件，用记事本打开复制里面的内容。
        
        回到Github，依次点击**你的头像 -> Settings -> SSH and GPG keys -> SSH keys -> New SSH key**，Title随便写，Key的输入框里粘贴刚才复制的密钥，保存。
    
@@ -42,7 +42,7 @@ tags:
        npm install hexo-deployer-git --save
        ```
        
-       *note: 因为天朝国情可能需要挂代理*。
+       *note: 因为天朝国情可能需要挂代理或换成国内镜像源，文末有*。
      
      + #### 配置`_config.yml`
        
@@ -53,7 +53,7 @@ tags:
        branch: master
        ```
        
-       repo后面的地址请复制你的github仓库地址替换，注意复制SSH地址，不要复制https地址。
+       repo后面的地址请复制你的github仓库地址替换，注意复制**SSH**地址，不要复制https地址。
      
      + #### 部署到Github
        
@@ -110,7 +110,7 @@ tags:
    
    + ### 还原备份
      
-     如果换了电脑操作，首先在新电脑上安装[Node.js](https://nodejs.org/zh-cn/)，安装[Git](https://git-scm.com/)，配置SSH keys，然后克隆github仓库：
+     如果换了电脑操作，首先在新电脑上安装[Node.js](https://nodejs.org/zh-cn/)，安装[Git](https://git-scm.com/)，配置[SSH keys](https://synblog.gq/2022/01/16/%E5%88%A9%E7%94%A8Hexo%E5%92%8CGithub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/#%E9%85%8D%E7%BD%AESSH-keys)，然后克隆github仓库：
      
      ```bash
      git clone -b blog git@github.com:yourname/yourname.github.io.git
@@ -118,7 +118,7 @@ tags:
      
      请注意把`git@github.com:yourname/yourname.github.io.git`替换为你自己的仓库SSH地址。
      
-     然后会在本地出现一个`yourname.github.io.git`的文件夹，进去文件夹就可以看到你备份的hexo文件，接着在该文件夹里**Git Bash Here**或者在原git窗口输入`cd yourname.github.io.git`进入该文件夹，安装一下Hexo：
+     然后会在本地出现一个`yourname.github.io`的文件夹，进去文件夹就可以看到你备份的hexo文件，接着在该文件夹里**Git Bash Here**或者在原git窗口输入`cd yourname.github.io.git`进入该文件夹，安装一下Hexo：
      
      ```bash
      npm install hexo-cli -g
