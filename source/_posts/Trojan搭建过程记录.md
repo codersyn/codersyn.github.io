@@ -323,9 +323,7 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 
 + Windows版本
   
-  [Trojan-Qt5](https://websyn.lanzoum.com/iQNi901epsyd)
-  
-  密码:bta2
+  [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
   
   [V2rayN](https://github.com/2dust/v2rayN/releases)
   
@@ -333,7 +331,7 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 
 + Android版本
   
-  igniter（[https://github.com/trojan-gfw/igniter/releases](https://github.com/trojan-gfw/igniter/releases)）
+  [igniter](https://github.com/trojan-gfw/igniter/releases)
 
 + iOS版本
   
