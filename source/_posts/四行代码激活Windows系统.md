@@ -21,12 +21,12 @@ slmgr.vbs /upk
 ### 2.安装密钥
 
 1. **Windows 11**
-   
-   ```bash
-   VK7JG-NPHTM-C97JM-9MPGT-3V66T
-   ```
-   
-   win11直接复制密钥到设置里粘贴激活就行。
+
+```bash
+VK7JG-NPHTM-C97JM-9MPGT-3V66T
+```
+
+win11直接复制密钥到设置里粘贴激活就行。
 
 2. **Windows 10**
 
@@ -35,12 +35,12 @@ slmgr /ipk W269N-WFGWX-YVC9B-4J6C9-T83GX
 ```
 
 3. **Windows 7**
-   
-   ```bash
-   slmgr /ipk FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4
-   ```
-   
-   上面的密钥都是对应专业版，如果你是其他版本请在下面密钥列表里找到你自己对应的版本。
+
+```bash
+slmgr /ipk FJ82H-XT6CR-J8D7P-XQJJ2-GPDD4
+```
+
+上面的密钥都是对应专业版，如果你是其他版本请在下面密钥列表里找到你自己对应的版本。
 
 ### 3.设置激活服务器
 
@@ -57,6 +57,8 @@ slmgr /ato
 ```
 
 输入后回车，稍等一会，会提示激活成功。
+
+顺便贴上office的激活方法，有需要自取。
 
 ## 激活office
 
@@ -304,5 +306,3 @@ cscript ospp.vbs /act
     > Project Standard 2010 4HP3K-88W3F-W2K3D-6677X-F9PGB  
     > Publisher 2010 BFK7F-9MYHM-V68C7-DRQ66-83YTP  
     > Word 2010 HVHB3-C6FV7-KQX9W-YQG79-CRY7T
-
-顺便贴上office的激活方法，有需要自取。

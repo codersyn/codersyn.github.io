@@ -23,7 +23,7 @@ typora-root-url: ./
 
 免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，~~所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，    目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。~~
 
-**最新可用的申请办法是直接挂代理申请，如果遇到技术错误导致域名未注册成功的话去百度找一个外国人信息修改你的资料就行了，因为挂代理它会检测你的ip地址，找ip地址对应的国家公民信息填上就行了**。
+**最新可用的申请办法是直接挂代理申请，如果遇到技术错误导致域名未注册成功的话去百度找一个外国人信息修改你的资料就行了，因为挂代理它会检测你的ip地址，找ip地址对应的国家外国人信息填上就行了**。
 
 *NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；~~③最好不要挂VPN申请，可能会出现卡验证邮箱的情况。~~
 
@@ -49,7 +49,7 @@ typora-root-url: ./
 
 保存即可。
 
-然后返回DNSPod把域名解析到你的服务器IP就行。~~至于为什么不使用Cloudflare，原因是无法添加freenom的域名~~。现在好像可以添加了，cf和dp随便用啥都行，用cf的话下面acme申请证书把dp的指令换成cf的就行。
+然后返回DNSPod把域名解析到你的服务器IP就行。至于为什么不使用Cloudflare，原因是CF不支持申请freenom域名的SSL证书。如果非freenom的域名可以用CF，用CF的话下面acme申请证书把dp的指令换成cf的就行。
 
 最后创建并查看api密钥复制备用，点击右上角的账号中心，选择**API密钥**：
 
@@ -60,6 +60,12 @@ typora-root-url: ./
 ![image-20210926191932287](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926191932287.png)
 
 ### 杂项
+
++ 更新系统
+  
+  ```bash
+  yum update
+  ```
 
 + 关闭防火墙**或者**开放80和443端口（此处二选一即可）
   
@@ -143,30 +149,24 @@ typora-root-url: ./
   
   ```bash
   server {
-      listen 127.0.0.1:80 default_server;
-  
+      listen       80 default_server;
       server_name syn.la;  #此处的syn.la替换为你的域名
   
       location / {
           proxy_pass https://www.baidu.com;  #反向代理你可以更改为任意没有敏感信息的网站
       }
-  
   }
   
   server {
-      listen 127.0.0.1:80;
-  
+      listen       80;
       server_name 0.0.0.0;  #此处的0.0.0.0替换为你的主机IP
-  
       return 301 https://syn.la$request_uri;  #此处的syn.la替换为你的域名
   }
   
   server {
-      listen 0.0.0.0:80;
-      listen [::]:80;
-  
-      server_name _;
-  
+      listen       80;
+      listen       [::]:80;
+      server_name  _;
       return 301 https://$host$request_uri;
   }
   ```
@@ -178,8 +178,7 @@ typora-root-url: ./
   
   ```bash
   server {
-      listen 127.0.0.1:80 default_server;
-  
+      listen       80 default_server;
       server_name syn.la;  #此处的syn.la替换为你的域名
   
       location / {
@@ -198,6 +197,14 @@ typora-root-url: ./
   ```bash
   systemctl restart nginx
   ```
+  
+  如果报错多半是SELinux在搞事情，可以彻底关闭SELinux。
+  
+  ```bash
+  vi /etc/selinux/config
+  ```
+  
+  找到`SELINUX=xxx`，改为`SELINUX=disabled`即可。
 
 + 让nginx开机自启
   
@@ -212,11 +219,10 @@ typora-root-url: ./
   这里使用acme.sh自动签发证书。
 
 ```bash
-curl  https://get.acme.sh | sh
-exit
+curl  https://get.acme.sh | sh -s email=my@example.com
 ```
 
-此处注意先退出登录刷新一下，不然下面使用acme命令会提示没有该命令。
+  `my@example.com`改为你的邮箱。
 
 ### 添加API密钥
 
@@ -227,24 +233,16 @@ export DP_Key="token"  #token改为之前复制的dnspod的token
 
 ### 申请证书
 
-+ 注册Zerossl
-  
-  由于acme 3.0更改默认CA为Zerossl，所以申请步骤略微区别于Let's Encrypt，需要用到一个邮箱注册Zerossl。
-  
-  ```bash
-  acme.sh  --register-account  -m myemail@example.com --server zerossl  #myemail@example.com改为你自己的邮箱
-  ```
-
 + 申请证书
   
   ```bash
-  acme.sh --issue --dns dns_dp -d syn.la  #syn.la改为你的域名
+  acme.sh --issue --dns dns_dp -d example.com  #example.com改为你的域名
   ```
   
   如果要申请通配证书则如下：
   
   ```bash
-  acme.sh --issue --dns dns_dp -d syn.la -d *.syn.la  #syn.la改为你的域名
+  acme.sh --issue --dns dns_dp -d example.com -d *.example.com  #example.com改为你的域名
   ```
   
   等待一会，出现这四个证书文件则为申请成功：
@@ -256,7 +254,7 @@ export DP_Key="token"  #token改为之前复制的dnspod的token
 ### 安装证书
 
 ```bash
-acme.sh --install-cert -d syn.la --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt  #使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把syn.la替换为你的域名
+acme.sh --install-cert -d example.com --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt  #使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把example.com替换为你的域名
 ```
 
 ### 配置acme.sh自动更新
@@ -265,7 +263,7 @@ acme.sh --install-cert -d syn.la --key-file /usr/local/etc/certfiles/private.key
 acme.sh  --upgrade  --auto-upgrade
 ```
 
-  到这里不出意外就能访问你带https的域名了，如果你反向代理了百度的话，会进入百度的页面
+到这里不出意外就能访问你带https的域名了，如果你反向代理了百度的话，会进入百度的页面
 
 ## 安装并配置trojan
 
@@ -341,7 +339,7 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
   
   自行在App Store下载shadowrocket
 
-### 常用命令
+## 常用命令
 
 + 重载nginx配置
   
@@ -360,7 +358,5 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
   ```bash
   systemctl stop trojan
   ```
-  
-  
-  
-  # ---END---
+
+# ---END---
