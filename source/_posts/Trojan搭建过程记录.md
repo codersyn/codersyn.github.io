@@ -62,167 +62,167 @@ typora-root-url: ./
 ### 杂项
 
 + 更新系统
-  
-  ```bash
-  yum update
-  ```
+
+```bash
+yum update
+```
 
 + 关闭防火墙**或者**开放80和443端口（此处二选一即可）
-  
-  ```bash
-  systemctl stop firewalld.service  #关闭防火墙
-  ```
-  
-  ```bash
-  firewall-cmd --zone=public --add-port=80/tcp --permanent  #开放80端口同理80改为443为开放443端口
-  ```
-  
-  ```bash
-  firewall-cmd --reload  #如果是选择开放端口那需要重载防火墙才能生效
-  ```
+
+```bash
+systemctl stop firewalld.service  #关闭防火墙
+```
+
+```bash
+firewall-cmd --zone=public --add-port=80/tcp --permanent  #开放80端口同理80改为443为开放443端口
+```
+
+```bash
+firewall-cmd --reload  #如果是选择开放端口那需要重载防火墙才能生效
+```
 
 + 安装acme.sh依赖
-  
-  ```bash
-  yum install -y socat cronie curl
-  ```
+
+```bash
+yum install -y socat cronie curl
+```
 
 + 安装trojan依赖
-  
-  ```bash
-  yum install -y xz
-  ```
+
+```bash
+yum install -y xz
+```
 
 + 启动crontab
-  
-  ```bash
-  systemctl start crond
-  ```
-  
-  ```bash
-  systemctl enable crond
-  ```
+
+```bash
+systemctl start crond
+```
+
+```bash
+systemctl enable crond
+```
 
 + 创建存放证书的文件夹
-  
-  ```bash
-  mkdir /usr/local/etc/certfiles
-  ```
+
+```bash
+mkdir /usr/local/etc/certfiles
+```
 
 + 允许httpd联网
-  
-  ```bash
-  setsebool -P httpd_can_network_connect 1
-  ```
-  
-  CentOS反向代理需要配置SELinux允许httpd模块可以联网，否则服务器会返回502错误，如果出现SELinux is disabled错误，说明SELinux已经被彻底的关闭了，那可以直接跳过。
+
+```bash
+setsebool -P httpd_can_network_connect 1
+```
+
+CentOS反向代理需要配置SELinux允许httpd模块可以联网，否则服务器会返回502错误，如果出现SELinux is disabled错误，说明SELinux已经被彻底的关闭了，那可以直接跳过。
 
 ## 安装并配置nginx
 
 ### 安装nginx
 
 + 安装epel
-  
-  ```bash
-  yum install epel-release
-  ```
+
+```bash
+yum install epel-release
+```
 
 + 安装nginx
-  
-  ```bash
-  yum install -y nginx
-  ```
+
+```bash
+yum install -y nginx
+```
 
 ### 配置nginx
 
 + 编辑confing
-  
-  ```bash
-  vi /etc/nginx/nginx.conf
-  ```
+
+```bash
+vi /etc/nginx/nginx.conf
+```
 
 + 删除原有的server代码块
-  
-  ![image-20210926185617676](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926185617676-16327033247461.png)
+
+![image-20210926185617676](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926185617676-16327033247461.png)
 
 + 替换server代码块为下面这个：
-  
-  ```bash
-  server {
-      listen       80 default_server;
-      server_name syn.la;  #此处的syn.la替换为你的域名
-  
-      location / {
-          proxy_pass https://www.baidu.com;  #反向代理你可以更改为任意没有敏感信息的网站
-      }
-  }
-  
-  server {
-      listen       80;
-      server_name 0.0.0.0;  #此处的0.0.0.0替换为你的主机IP
-      return 301 https://syn.la$request_uri;  #此处的syn.la替换为你的域名
-  }
-  
-  server {
-      listen       80;
-      listen       [::]:80;
-      server_name  _;
-      return 301 https://$host$request_uri;
-  }
-  ```
-  
-  然后shift+zz保存退出即可。
-  解释一下这些虚拟主机的一些细节：第一个server接收来自Trojan的流量，第二个server也是接收来自Trojan的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名，第三个server接收除127.0.0.1:80外的所有80端口的流量并重定向到443端口，这样便开启了全站https，可有效的防止恶意探测。
-  
-  如果不想反代而是设置伪装站点，或者本身有网站，那把第一个server修改下就行：
-  
-  ```bash
-  server {
-      listen       80 default_server;
-      server_name syn.la;  #此处的syn.la替换为你的域名
-  
-      location / {
-          root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
-          index  index.html index.htm; //定义站点的默认页
-      }
-  }
-  ```
-  
-  然后把你的网站文件放在`/usr/share/nginx/html`下就行了。
-  
-  ### 启动nginx
+
+```bash
+server {
+        listen 80 default_server;
+        server_name syn.la;  #此处的syn.la替换为你的域名
+
+        location / {
+            proxy_pass https://www.baidu.com;  #反向代理你可以更改为任意没有敏感信息的网站
+        }
+}
+
+server {
+        listen 80;
+        server_name 0.0.0.0;  #此处的0.0.0.0替换为你的主机IP
+        return 301 https://syn.la$request_uri;  #此处的syn.la替换为你的域名
+}
+
+server {
+        listen       80;
+        listen       [::]:80;
+        server_name  _;
+        return 301 https://$host$request_uri;
+}
+```
+
+然后shift+zz保存退出即可。
+解释一下这些虚拟主机的一些细节：第一个server接收来自Trojan的流量，第二个server也是接收来自Trojan的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名，第三个server接收除127.0.0.1:80外的所有80端口的流量并重定向到443端口，这样便开启了全站https，可有效的防止恶意探测。
+
+如果不想反代而是设置伪装站点，或者本身有网站，那把第一个server修改下就行：
+
+```bash
+server {
+        listen 80 default_server;
+        server_name syn.la;  #此处的syn.la替换为你的域名
+
+        location / {
+            root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
+            index  index.html index.htm; //定义站点的默认页
+        }
+}
+```
+
+然后把你的网站文件放在`/usr/share/nginx/html`下就行了。
+
+### 启动nginx
 
 + 启动nginx
-  
-  ```bash
-  systemctl restart nginx
-  ```
-  
-  如果报错多半是SELinux在搞事情，可以彻底关闭SELinux。
-  
-  ```bash
-  vi /etc/selinux/config
-  ```
-  
-  找到`SELINUX=xxx`，改为`SELINUX=disabled`即可。
+
+```bash
+systemctl restart nginx
+```
+
+如果报错多半是SELinux在搞事情，可以彻底关闭SELinux。
+
+```bash
+vi /etc/selinux/config
+```
+
+找到`SELINUX=xxx`，改为`SELINUX=disabled`即可。
 
 + 让nginx开机自启
-  
-  ```bash
-  systemctl enable nginx
-  ```
+
+```bash
+systemctl enable nginx
+```
 
 ## 申请证书
 
 ### 安装证书
 
-  这里使用acme.sh自动签发证书。
+这里使用acme.sh自动签发证书。
 
 ```bash
 curl  https://get.acme.sh | sh -s email=my@example.com
 ```
 
-  `my@example.com`改为你的邮箱。
+`my@example.com`改为你的邮箱。
 
 ### 添加API密钥
 
@@ -234,22 +234,22 @@ export DP_Key="token"  #token改为之前复制的dnspod的token
 ### 申请证书
 
 + 申请证书
-  
-  ```bash
-  acme.sh --issue --dns dns_dp -d example.com  #example.com改为你的域名
-  ```
-  
-  如果要申请通配证书则如下：
-  
-  ```bash
-  acme.sh --issue --dns dns_dp -d example.com -d *.example.com  #example.com改为你的域名
-  ```
-  
-  等待一会，出现这四个证书文件则为申请成功：
-  
-  ![image-20210926194858419](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926194858419.png)
-  
-  *注*：如果这里提示没有acme.sh命令，那`exit`退出再重新登录一下就行了，如果没有出现上图而是出现一串红色的信息，未申请成功的话，大概率是API密钥未添加成功，重新执行一遍添加API密钥的命令即可。
+
+```bash
+acme.sh --issue --dns dns_dp -d example.com  #example.com改为你的域名
+```
+
+如果要申请通配证书则如下：
+
+```bash
+acme.sh --issue --dns dns_dp -d example.com -d *.example.com  #example.com改为你的域名
+```
+
+等待一会，出现这四个证书文件则为申请成功：
+
+![image-20210926194858419](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926194858419.png)
+
+*注*：如果这里提示没有acme.sh命令，那`exit`退出再重新登录一下就行了，如果没有出现上图而是出现一串红色的信息，未申请成功的话，大概率是API密钥未添加成功，重新执行一遍添加API密钥的命令即可。
 
 ### 安装证书
 
@@ -284,32 +284,32 @@ vi /usr/local/etc/trojan/config.json
 ### 启动trojan
 
 + 启动trojan
-  
-  ```bash
-  systemctl restart trojan
-  ```
+
+```bash
+systemctl restart trojan
+```
 
 + 添加开机自启
-  
-  ```bash
-  systemctl enable trojan
-  ```
+
+```bash
+systemctl enable trojan
+```
 
 ### 配置trojan自动加载更新后的证书
 
 + 编辑crontab文件
-  
-  ```bash
-  crontab -e
-  ```
+
+```bash
+crontab -e
+```
 
 + 写入定时任务
-  
-  ```bash
-  0 0 1 * * killall -s SIGUSR1 trojan
-  ```
-  
-  shift+zz保存退出即可
+
+```bash
+0 0 1 * * killall -s SIGUSR1 trojan
+```
+
+shift+zz保存退出即可
 
 ## 安装bbr加速（可选）
 
@@ -317,44 +317,44 @@ vi /usr/local/etc/trojan/config.json
 wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-NetSpeed/master/tcp.sh" && chmod +x tcp.sh && ./tcp.sh
 ```
 
-  放个一键脚本自己按要求操作吧，我实在写不动了...
+放个一键脚本自己按要求操作吧，我实在写不动了...
 
 ## 安装客户端
 
 + Windows版本
-  
-  [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
-  
-  [V2rayN](https://github.com/2dust/v2rayN/releases)
-  
-  两者皆可，自行下载。
+
+[Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
+
+[V2rayN](https://github.com/2dust/v2rayN/releases)
+
+两者皆可，自行下载。
 
 + Android版本
-  
-  [igniter](https://github.com/trojan-gfw/igniter/releases)
+
+[igniter](https://github.com/trojan-gfw/igniter/releases)
 
 + iOS版本
-  
-  自行在App Store下载shadowrocket
+
+自行在App Store下载shadowrocket
 
 ## 常用命令
 
 + 重载nginx配置
-  
-  ```bash
-  nginx -s reload
-  ```
+
+```bash
+nginx -s reload
+```
 
 + trojan运行状态
-  
-  ```bash
-  systemctl status trojan
-  ```
+
+```bash
+systemctl status trojan
+```
 
 + 关闭trojan
-  
-  ```bash
-  systemctl stop trojan
-  ```
+
+```bash
+systemctl stop trojan
+```
 
 # ---END---
