@@ -64,7 +64,7 @@ Available applications:
 
 建议你启用限制性最强的配置文件，该配置文件仍将允许已配置的流量。由于在本指南中我们尚未为服务器配置SSL，因此我们只需要在端口上允许HTTP的流量。
 
-您可以通过键入以下内容来启用此功能：
+你可以通过键入以下内容来启用此功能：
 
 ```bash
 sudo ufw allow 'Nginx HTTP'
@@ -125,11 +125,11 @@ ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'
 
 当你拥有服务器的 IP 地址时，请将其输入到浏览器的地址栏中：
 
-```
+```bash
 http://your_server_ip
 ```
 
-您应该会看到默认的Nginx登录页面：
+你应该会看到默认的Nginx登录页面：
 
 ![Nginx 默认页面](https://assets.digitalocean.com/articles/nginx_1604/default_page.png)
 
@@ -177,7 +177,7 @@ sudo systemctl enable nginx
 
 ## 步骤 5 – 设置服务器块
 
-使用Nginx作为Web服务器时，*服务器块*（类似于Apache中的虚拟主机）可用于封装配置详细信息并在单个服务器上托管多个域。我们将设置一个名为 **your_domain** 的域。
+使用Nginx作为Web服务器时，*服务器块*（类似于Apache中的虚拟主机）可用于封装详细配置信息并在单个服务器上托管多个域。我们将设置一个名为 **your_domain** 的域。
 
 Debian 10 上的 Nginx 默认启用了一个服务器块，该服务器块会读取位于`/var/www/html`下的Web页面。虽然这适用于单个站点，但如果你托管多个站点，则可能会变得难以管理。与其修改默认的页面，不如为 **your_domain** 网站创建一个新的Web目录，如果客户端请求与任何其他站点不匹配，才访问这个默认的网站页面`/var/www/html`。
 
@@ -221,7 +221,7 @@ nano /var/www/your_domain/html/index.html
 
 完成后保存并关闭该文件。
 
-为了让Nginx显示这些内容，我们需要创建一个服务器块，其中包含指向我们的网站目录的正确指令。与其直接修改默认配置文件，不如在`/etc/nginx/sites-available/your_domain`新增一个：
+为了让Nginx显示这些内容，我们需要创建一个服务器块，其中包含指向我们的网站目录的正确指令。与其直接修改默认配置文件，不如新增一个`/etc/nginx/sites-available/your_domain`的网站配置：
 
 ```bash
 sudo nano /etc/nginx/sites-available/your_domain
@@ -283,7 +283,7 @@ sudo systemctl restart nginx
 
 ### 网页内容
 
-- `/var/www/html`：实际的Web内容，默认情况下仅由你之前看到的默认Nginx页面组成，从目录中提供。这可以通过更改Nginx配置文件来更改。
+- `/var/www/html`：实际的Web内容，默认情况下仅由你之前看到的默认Nginx页面组成，从网站根目录中提供。这可以通过更改Nginx配置文件来更改。
 
 ### 服务器配置
 

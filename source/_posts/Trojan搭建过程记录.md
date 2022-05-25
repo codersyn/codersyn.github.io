@@ -333,19 +333,19 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 
 + Windows版本
   
-  [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
+  1. [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
   
-  [V2rayN](https://github.com/2dust/v2rayN/releases)
-
-两者皆可，自行下载。
+  2. [V2rayN](https://github.com/2dust/v2rayN/releases)
+  
+  两者皆可，自行下载。
 
 + Android版本
   
   [igniter](https://github.com/trojan-gfw/igniter/releases)
 
 + iOS版本
-
-自行在App Store下载shadowrocket
+  
+  自行在App Store下载shadowrocket
 
 ## 常用命令
 
