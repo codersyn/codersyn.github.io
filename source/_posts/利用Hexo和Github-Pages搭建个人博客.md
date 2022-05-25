@@ -110,7 +110,7 @@ tags:
    
    + ### 还原备份
      
-     如果换了电脑操作，首先在新电脑上安装[Node.js](https://nodejs.org/zh-cn/)，安装[Git](https://git-scm.com/)，配置[SSH keys](https://synblog.gq/2022/01/16/%E5%88%A9%E7%94%A8Hexo%E5%92%8CGithub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/#%E9%85%8D%E7%BD%AESSH-keys)，然后克隆github仓库：
+     如果换了电脑操作，首先在新电脑上安装[Node.js](https://nodejs.org/zh-cn/)，安装[Git](https://git-scm.com/)，配置[SSH keys](https://sysy.su/2022/01/16/%E5%88%A9%E7%94%A8Hexo%E5%92%8CGithub-Pages%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/#%E9%85%8D%E7%BD%AESSH-keys)，然后克隆github仓库：
      
      ```bash
      git clone -b blog git@github.com:yourname/yourname.github.io.git

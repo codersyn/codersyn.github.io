@@ -21,11 +21,9 @@ typora-root-url: ./
 
 如果你已经有域名这步可跳过，因为我拿到的服务器是一年的，而我之前买的域名不足一年了，为了钱包的安全，我决定去申请一个免费域名。
 
-免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，~~所以申请的话需要特殊操作，用火狐浏览器，在浏览器的扩展里搜索安装**Gooreplacer**插件，插件里匹配模式填`https://www.google.com/recaptcha`，    目标地址填`https://www.recaptcha.net/recaptcha`，其他保持默认，然后就可以到freenom申请域名了。~~
+免费申请域名的网站：[https://www.freenom.com/](https://www.freenom.com/)，这个应该大家都熟悉，此处注意一个点就是freenom似乎禁止了中国玩家的申请，可用的申请办法是直接挂代理申请，如果遇到技术错误导致域名未注册成功的话去百度找一个外国人信息修改你的资料就行了，因为挂代理它会检测你的ip地址，找ip地址对应的国家外国人信息填上就行了。
 
-**最新可用的申请办法是直接挂代理申请，如果遇到技术错误导致域名未注册成功的话去百度找一个外国人信息修改你的资料就行了，因为挂代理它会检测你的ip地址，找ip地址对应的国家外国人信息填上就行了**。
-
-*NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；~~③最好不要挂VPN申请，可能会出现卡验证邮箱的情况。~~
+*NOTE*：①如果输入域名点击**检查**按钮无反应把语言调为英文再试试；②确定想要的域名后点击**获取/Git it now**按钮出现**不可用/x**有两种解决办法：1.在域名后面加后缀再点击**检查**按钮，如你想要synblog.ga这个域名那就输入整个synblog.ga再点击**检查**按钮，不要只输入synblog；2.先注册登录后再申请域名，关于找不到注册入口的可依次点击首页顶部的**合作伙伴/Partners**—**开发者/Developers**选项，把页面拉到最下面点击**Get a Random Domains Account today**按钮即可进入到注册页面；
 
 注册过程无难点，就不再赘述，按照要求填入信息就好，注册成功后先放一边，然后进行下一步操作。
 
@@ -49,7 +47,7 @@ typora-root-url: ./
 
 保存即可。
 
-然后返回DNSPod把域名解析到你的服务器IP就行。至于为什么不使用Cloudflare，原因是CF不支持申请freenom域名的SSL证书。如果非freenom的域名可以用CF，用CF的话下面acme申请证书把dp的指令换成cf的就行。
+然后返回DNSPod把域名解析到你的服务器IP就行。至于为什么不使用Cloudflare，原因是CF不支持申请freenom域名的SSL证书。如果非freenom的域名可以用CF，用CF的话下面acme申请证书把DP的指令换成CF的就行。
 
 最后创建并查看api密钥复制备用，点击右上角的账号中心，选择**API密钥**：
 
@@ -74,10 +72,8 @@ systemctl stop firewalld.service  #关闭防火墙
 ```
 
 ```bash
-firewall-cmd --zone=public --add-port=80/tcp --permanent  #开放80端口同理80改为443为开放443端口
-```
-
-```bash
+firewall-cmd --zone=public --add-port=80/tcp --permanent  #开放80端口
+firewall-cmd --zone=public --add-port=443/tcp --permanent  #开放443端口
 firewall-cmd --reload  #如果是选择开放端口那需要重载防火墙才能生效
 ```
 
@@ -149,42 +145,42 @@ vi /etc/nginx/nginx.conf
 
 ```bash
 server {
-        listen 80 default_server;
-        server_name syn.la;  #此处的syn.la替换为你的域名
+    listen 127.0.0.1:80 default_server;
+    server_name your_domain;
 
-        location / {
-            proxy_pass https://www.baidu.com;  #反向代理你可以更改为任意没有敏感信息的网站
-        }
+    location / {
+        proxy_pass https://www.baidu.com;
+    }
 }
 
 server {
-        listen 80;
-        server_name 0.0.0.0;  #此处的0.0.0.0替换为你的主机IP
-        return 301 https://syn.la$request_uri;  #此处的syn.la替换为你的域名
+    listen 127.0.0.1:80;
+    server_name your_server_ip;
+    return 301 https://your_domain$request_uri;
 }
 
 server {
-        listen       80;
-        listen       [::]:80;
-        server_name  _;
-        return 301 https://$host$request_uri;
+    listen 0.0.0.0:80;
+    listen [::]:80;
+    server_name _;
+    return 301 https://$host$request_uri;
 }
 ```
 
-然后shift+zz保存退出即可。
+请注意替换上面的`your_domain`和`your_server_ip`为你自己的域名和IP，`proxy_pass`后面的网址为你想反向代理的网址，你可以替换为任意没有敏感信息的网站。
 解释一下这些虚拟主机的一些细节：第一个server接收来自Trojan的流量，第二个server也是接收来自Trojan的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名，第三个server接收除127.0.0.1:80外的所有80端口的流量并重定向到443端口，这样便开启了全站https，可有效的防止恶意探测。
 
 如果不想反代而是设置伪装站点，或者本身有网站，那把第一个server修改下就行：
 
 ```bash
 server {
-        listen 80 default_server;
-        server_name syn.la;  #此处的syn.la替换为你的域名
+    listen 80 default_server;
+    server_name your_domain;
 
-        location / {
-            root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
-            index  index.html index.htm; //定义站点的默认页
-        }
+    location / {
+        root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
+        index  index.html index.htm; //定义站点的默认页
+    }
 }
 ```
 
@@ -204,7 +200,7 @@ systemctl restart nginx
 vi /etc/selinux/config
 ```
 
-找到`SELINUX=xxx`，改为`SELINUX=disabled`即可。
+找到`SELINUX=xxx`，改为`SELINUX=disabled`并`reboot`重启服务器即可。
 
 + 让nginx开机自启
 
@@ -223,6 +219,12 @@ curl  https://get.acme.sh | sh -s email=my@example.com
 ```
 
 `my@example.com`改为你的邮箱。
+
+安装完成后重新加载 Bash：
+
+```bash
+source ~/.bashrc
+```
 
 ### 添加API密钥
 
@@ -249,13 +251,21 @@ acme.sh --issue --dns dns_dp -d example.com -d *.example.com  #example.com改为
 
 ![image-20210926194858419](/../images/Trojan%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/image-20210926194858419.png)
 
-*注*：如果这里提示没有acme.sh命令，那`exit`退出再重新登录一下就行了，如果没有出现上图而是出现一串红色的信息，未申请成功的话，大概率是API密钥未添加成功，重新执行一遍添加API密钥的命令即可。
+如果没有出现上图而是出现一串红色的信息，未申请成功的话，大概率是因为zerossl抽风，可以更换默认CA为Let's Encrypt：
+
+```bash
+acme.sh --set-default-ca --server letsencrypt
+```
+
+之后再重新执行一遍申请证书的指令即可。
 
 ### 安装证书
 
 ```bash
-acme.sh --install-cert -d example.com --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt  #使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把example.com替换为你的域名
+acme.sh --install-cert -d example.com --key-file /usr/local/etc/certfiles/private.key --fullchain-file /usr/local/etc/certfiles/certificate.crt
 ```
+
+使用acme.sh将证书安装到certfiles目录，这样acme.sh更新证书的时候会自动将新的证书安装到这里，注意把`example.com`替换为你的域名
 
 ### 配置acme.sh自动更新
 
@@ -279,7 +289,7 @@ sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-q
 vi /usr/local/etc/trojan/config.json
 ```
 
-修改**password**为你喜好的密码，修改**cert**的地址为证书所在地址：`/usr/local/etc/certfiles/certificate.crt`，修改**key**地址为证书所在地址：`/usr/local/etc/certfiles/private.key`，shift+zz保存退出即可
+修改**password**为你喜好的密码，修改**cert**的地址为证书所在地址：`/usr/local/etc/certfiles/certificate.crt`，修改**key**地址为证书所在地址：`/usr/local/etc/certfiles/private.key`，保存退出即可。
 
 ### 启动trojan
 
@@ -309,7 +319,7 @@ crontab -e
 0 0 1 * * killall -s SIGUSR1 trojan
 ```
 
-shift+zz保存退出即可
+保存退出即可。
 
 ## 安装bbr加速（可选）
 
@@ -322,16 +332,16 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 ## 安装客户端
 
 + Windows版本
-
-[Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
-
-[V2rayN](https://github.com/2dust/v2rayN/releases)
+  
+  [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
+  
+  [V2rayN](https://github.com/2dust/v2rayN/releases)
 
 两者皆可，自行下载。
 
 + Android版本
-
-[igniter](https://github.com/trojan-gfw/igniter/releases)
+  
+  [igniter](https://github.com/trojan-gfw/igniter/releases)
 
 + iOS版本
 
@@ -355,6 +365,12 @@ systemctl status trojan
 
 ```bash
 systemctl stop trojan
+```
+
++ 跟踪trojan日志
+
+```bash
+journalctl -u trojan -f
 ```
 
 # ---END---
