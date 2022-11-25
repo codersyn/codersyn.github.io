@@ -9,8 +9,8 @@ typora-root-url: ./
 
 ## 前置条件
 
-+ 国外VPS一枚（此处为CentOS 7系统，其他系统请自行更改对应命令）
-+ SSH工具（此处用的[Xshell](https://www.netsarang.com/zh/free-for-home-school/)）
++ 国外VPS一枚
++ SSH工具
 + 域名一个
 + SSL证书
 + Trojan项目地址：[https://github.com/trojan-gfw/trojan](https://github.com/trojan-gfw/trojan)
@@ -62,10 +62,11 @@ typora-root-url: ./
 + 更新系统
 
 ```bash
-yum update
+yum update #centos
+apt update && apt upgrade -y #debian/ubuntu
 ```
 
-+ 关闭防火墙**或者**开放80和443端口（此处二选一即可）
++ 关闭防火墙**或者**开放80和443端口（此处二选一即可）#centos
 
 ```bash
 systemctl stop firewalld.service  #关闭防火墙
@@ -80,23 +81,24 @@ firewall-cmd --reload  #如果是选择开放端口那需要重载防火墙才�
 + 安装acme.sh依赖
 
 ```bash
-yum install -y socat cronie curl
+yum install -y socat cronie curl #centos
+apt install -y socat cron curl #debian/ubuntu
 ```
 
 + 安装trojan依赖
 
 ```bash
-yum install -y xz
+yum install -y xz #centos
+apt install -y libcap2-bin xz-utils nano #debian/ubuntu
 ```
 
 + 启动crontab
 
 ```bash
-systemctl start crond
-```
-
-```bash
-systemctl enable crond
+systemctl start crond #centos
+systemctl enable crond #centos
+systemctl start cron #debian/ubuntu
+systemctl enable cron #debian/ubuntu
 ```
 
 + 创建存放证书的文件夹
@@ -117,7 +119,7 @@ CentOS反向代理需要配置SELinux允许httpd模块可以联网，否则服�
 
 ### 安装nginx
 
-+ 安装epel
++ 安装epel #centos
 
 ```bash
 yum install epel-release
@@ -126,7 +128,8 @@ yum install epel-release
 + 安装nginx
 
 ```bash
-yum install -y nginx
+yum install -y nginx #centos
+apt install -y nginx #debian/ubuntu
 ```
 
 ### 配置nginx
@@ -134,7 +137,8 @@ yum install -y nginx
 + 编辑confing
 
 ```bash
-vi /etc/nginx/nginx.conf
+vi /etc/nginx/nginx.conf #centos
+vi /etc/nginx/sites-available/default #debian/ubuntu
 ```
 
 + 删除原有的server代码块
@@ -176,15 +180,16 @@ server {
 server {
     listen 80 default_server;
     server_name your_domain;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
 
     location / {
-        root   html;  //定义网站根目录，目录可以是相对路径也可以是绝对路径。
-        index  index.html index.htm; //定义站点的默认页
+        try_files $uri $uri/ =404;
     }
 }
 ```
 
-然后把你的网站文件放在`/usr/share/nginx/html`下就行了。
+然后把你的网站文件放在对应的目录下就行了，一般centos的默认html文件在`/usr/share/nginx/html`下，debian/ubuntu的默认html文件在`/var/www/html`下，根据你的系统选择并更改上面的`root`项即可，当然你想放在其他位置也行，这样写只是为了方便快捷一些。
 
 ### 启动nginx
 
@@ -228,23 +233,46 @@ source ~/.bashrc
 
 ### 添加API密钥
 
++ DNSpod
+
 ```bash
 export DP_Id="1234"  #1234改为之前复制的dnspod的id
 export DP_Key="token"  #token改为之前复制的dnspod的token
 ```
 
-### 申请证书
-
-+ 申请证书
++ Cloudflare
 
 ```bash
-acme.sh --issue --dns dns_dp -d example.com  #example.com改为你的域名
+export CF_Key="<你的 Global API Key>"
+export CF_Email="<你的cloudflare邮箱>"
+```
+
+### 申请证书
+
++ DNSpod
+
+```bash
+acme.sh --issue --dns dns_dp -d example.com #example.com改为你的域名
+```
+
++ Cloudflare
+
+```bash
+acme.sh --issue --dns dns_cf -d example.com #example.com改为你的域名
 ```
 
 如果要申请通配证书则如下：
 
++ DNSpod
+
 ```bash
-acme.sh --issue --dns dns_dp -d example.com -d *.example.com  #example.com改为你的域名
+acme.sh --issue --dns dns_dp -d example.com -d *.example.com #example.com改为你的域名
+```
+
++ Cloudflare
+
+```bash
+acme.sh --issue --dns dns_cf -d example.com -d *.example.com #example.com改为你的域名
 ```
 
 等待一会，出现这四个证书文件则为申请成功：
@@ -333,7 +361,7 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 
 + Windows版本
   
-  1. [Trojan-Qt5](https://synssr.ga/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
+  1. [Trojan-Qt5](https://drive.sysy.su/d/%E8%BD%AF%E4%BB%B6/Trojan-Qt5-Windows-1.4.0.7z)
   
   2. [V2rayN](https://github.com/2dust/v2rayN/releases)
   
@@ -341,7 +369,7 @@ wget -N --no-check-certificate "https://raw.githubusercontent.com/chiakge/Linux-
 
 + Android版本
   
-  [igniter](https://github.com/trojan-gfw/igniter/releases)
+  1. [igniter](https://github.com/trojan-gfw/igniter/releases)
 
 + iOS版本
   

@@ -56,20 +56,27 @@ curl 'http://www.kolagame.xyz/wp-admin/admin-ajax.php' \
 
 *注意：服务器如果为CentOS 7且版本较低的话不支持`--data-raw`选项，需要改为`--data`*
 
-8. 创建一个日志文件存放json反馈，然后写个脚本并创建定时任务
-+ 创建存放日志的文件夹和日志文件
+8. 创建一个日志文件夹存放json反馈，然后写个脚本并创建定时任务
++ 创建存放日志的文件夹
 
 ```bash
 mkdir qiandao
-cd /qiandao
-vi qiandao.log
 ```
+
+注意此处是直接用root用户创建的文件夹，所以`qiandao`文件夹是在`root`目录下。
 
 + 编写脚本
 
-`vi qiandao.sh`，然后脚本里写入：
+```bash
+cd qiandao
+vi qiandao.sh
+```
+
+然后脚本里写入：
 
 ```bash
+echo "-------------------" >> /root/qiandao/qiandao.log
+echo $(date +%F%n%T) >> /root/qiandao/qiandao.log
 echo $(curl 'http://www.kolagame.xyz/wp-admin/admin-ajax.php' \
   -H 'Accept: application/json, text/javascript, */*; q=0.01' \
   -H 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6' \
@@ -82,7 +89,13 @@ echo $(curl 'http://www.kolagame.xyz/wp-admin/admin-ajax.php' \
   -H 'X-Requested-With: XMLHttpRequest' \
   --data-raw 'action=daily_sign' \
   --compressed \
-  --insecure) >> /qiandao/qiandao.log
+  --insecure) >> /root/qiandao/qiandao.log
+```
+
+给脚本赋予执行权限：
+
+```bash
+chmod +x qiandao.sh
 ```
 
 这样执行脚本之后结果就会反馈到qiandao文件夹下的qiandao.log日志里，注意把括号里curl的值换成你自己的
@@ -92,7 +105,7 @@ echo $(curl 'http://www.kolagame.xyz/wp-admin/admin-ajax.php' \
 `crontab -e`编辑crontab文件，写入定时任务
 
 ```bash
-00 12 * * * /qiandao/qiandao.sh
+00 12 * * * /root/qiandao/qiandao.sh
 ```
 
 这样就会每天中午12点自动执行签到脚本，并把结果反馈到日志文件里
@@ -100,12 +113,12 @@ echo $(curl 'http://www.kolagame.xyz/wp-admin/admin-ajax.php' \
 9. 查看反馈结果
 
 ```bash
-cat /qiandao/qiandao.sh
+cat /root/qiandao/qiandao.log
 ```
 
 可在终端看到反馈信息：
 
-<img title="" src="https://s1.ax1x.com/2022/05/20/OLDvIP.png" alt="" data-align="left">
+<img title="" src="https://s1.ax1x.com/2022/11/25/zY5H29.png" alt="" data-align="left">
 
 这里Unicode转换为中文为“您今天已经签到了，明天再来吧！”，证明脚本生效。这样就解放双手不必每天手动签到了。
 
