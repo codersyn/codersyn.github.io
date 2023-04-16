@@ -1,0 +1,213 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="这是泰拉瑞亚修改教程的第二章，上接第一章，如果你还没有看过相关教程，可以从头看起。
+
+第二章 — 利用脚本进行复杂的修改一击必杀一击必杀的功能其实直接修改武器伤害为9999也可以实现，但是特殊情况下就会失效，比如面对地牢守卫时，你的每次攻击永远只能对它造成1滴血的伤害，这就导致了无论你修改多高的伤害"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>泰拉瑞亚修改教程 — 中 · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>泰拉瑞亚修改教程 — 中</h1><span class="post-meta">写于<time> 2022 年 02 月 17 日 10 时 27 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E2%80%94-%E5%88%A9%E7%94%A8%E8%84%9A%E6%9C%AC%E8%BF%9B%E8%A1%8C%E5%A4%8D%E6%9D%82%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-number">1.</span> <span class="toc-text">第二章 — 利用脚本进行复杂的修改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%87%BB%E5%BF%85%E6%9D%80"><span class="toc-number">1.1.</span> <span class="toc-text">一击必杀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E6%95%8C"><span class="toc-number">1.2.</span> <span class="toc-text">无敌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E9%80%9F"><span class="toc-number">1.3.</span> <span class="toc-text">极速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A0%E9%99%90%E5%8F%AC%E5%94%A4"><span class="toc-number">1.4.</span> <span class="toc-text">无限召唤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E7%94%A8%EF%BC%8C%E5%90%8E%E7%BB%AD%E5%86%8D%E6%9B%B4%E3%80%82"><span class="toc-number">1.5.</span> <span class="toc-text">备用，后续再更。</span></a></li></ol></li></ol></div><blockquote>
+<p>这是泰拉瑞亚修改教程的第二章，上接<a target="_blank" rel="noopener" href="https://sysy.su/2021/10/03/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B%20%E2%80%94%20%E4%B8%8A/">第一章</a>，如果你还没有看过相关教程，可以从头看起。</p>
+</blockquote>
+<h2 id="第二章-—-利用脚本进行复杂的修改"><a href="#第二章-—-利用脚本进行复杂的修改" class="headerlink" title="第二章 — 利用脚本进行复杂的修改"></a>第二章 — 利用脚本进行复杂的修改</h2><h3 id="一击必杀"><a href="#一击必杀" class="headerlink" title="一击必杀"></a>一击必杀</h3><p>一击必杀的功能其实直接修改武器伤害为9999也可以实现，但是特殊情况下就会失效，比如面对地牢守卫时，你的每次攻击永远只能对它造成1滴血的伤害，这就导致了无论你修改多高的伤害打到它的身上也只会扣1滴血。</p>
+<img title="" src="https://s4.ax1x.com/2022/02/17/H4OweP.png" alt="地牢守卫" data-align="center">
+
+<p>既然高伤害不能实现秒杀，那就换一个思路，我们知道当你攻击一个怪物时，是两个触发事件，第一你的武器摸到了怪物，第二怪物扣除相应的血量，第一个不用研究，第二个怪物扣除血量我们可以改为当攻击到怪物后，不管怪物的血量是多少直接把怪物的血量变为0，变为0那当然就死了。下面是实现方法：</p>
+<p>首先找到怪物的血值地址，随便找个怪物查看它的当前血量，这里史莱姆为例：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5ierF.png" title="" alt="怪物血值" data-align="center">
+
+<p>可看到史莱姆的血量为120，那在CE里搜索4字节的120数值看看：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5VQcq.png" title="" alt="CE界面" data-align="center">
+
+<p>看到结果还有很多，那再过滤一下，回到游戏攻击一下史莱姆：</p>
+<img title="" src="https://s4.ax1x.com/2022/02/17/H5ZadS.png" alt="游戏界面" data-align="center">
+
+<p>攻击一下扣了2滴血，返回CE继续搜索118：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5ZLdO.png" title="" alt="CE界面" data-align="center">
+
+<p>可以看到此时只有一个结果了，右键这个地址，<strong>查看是什么改写了这个地址</strong>：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5e26I.png" title="" alt="CE界面" data-align="center">
+
+<p>回到游戏，再攻击一下史莱姆，然后返回CE，应该可以看到列表里多了一个地址，点击<strong>Show disassembler</strong>打开内存浏览界面：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5mN4g.png" title="" alt="CE界面" data-align="center">
+
+<p>然后在这个地址上右键，复制其模块地址：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5n4Jg.png" title="" alt="CE界面" data-align="center">
+
+<p>然后点击<strong>Tools</strong> -&gt; <strong>Auto Assemble</strong>：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5uSSJ.png" title="" alt="CE界面" data-align="center">
+
+<p>再点击<strong>Template</strong> -&gt; <strong>Full Injection</strong>，然后框内粘贴刚才复制的模块地址：</p>
+<img src="https://s4.ax1x.com/2022/02/17/H5Kd8e.png" title="" alt="CE界面" data-align="center">
+
+<p>然后分析下代码：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123; Game   : Terraria<span class="number">.</span>exe</span><br><span class="line"><span class="symbol">  Version:</span> </span><br><span class="line">  Date   : <span class="number">2022</span>-<span class="number">02</span>-<span class="number">17</span></span><br><span class="line">  Author : admin</span><br><span class="line"></span><br><span class="line">  This script does blah blah blah</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define(address,Terraria<span class="number">.</span>NPC::StrikeNPC+<span class="number">742</span>)</span><br><span class="line">define(bytes,<span class="number">29</span> <span class="number">86</span> <span class="number">00</span> <span class="number">01</span> <span class="number">00</span> <span class="number">00</span>)</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">sub</span> [<span class="built_in">esi</span>+<span class="number">00000100</span>],<span class="built_in">eax</span></span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line">  <span class="keyword">nop</span></span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">sub</span> [<span class="built_in">esi</span>+<span class="number">00000100</span>],<span class="built_in">eax</span></span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br></pre></td></tr></table></figure>
+
+<p>定位到<code>sub [esi+00000100],eax</code>，这段的意思是从<code>[esi+00000100]</code>这个指针地址里减去<code>eax</code>，因为我们是攻击怪物的时候触发的这个地址，所以很可能<code>[esi+00000100]</code>就是怪物的血值地址，而<code>eax</code>即扣除的血量数值。</p>
+<p>既然怀疑，就尝试修改一下，因为<code>sub [esi+00000100],eax</code>的意思是从怪物血值里减去受到的伤害值，那我们注释掉原来的<code>sub [esi+00000100],eax</code>，改为<code>mov [esi+00000100],0</code>，这段意思是，把0这个值移到怪物血值里，这样当我们攻击怪物的时候触发的就是把0移到他的血量里面，相当于血量直接变为0，也就达到了秒杀效果：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTBFoV.png" title="" alt="CE界面" data-align="center">
+
+<p>然后保存脚本：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTD3Bn.png" title="" alt="CE界面" data-align="center">
+
+<p>接着激活脚本：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTyTER.png" title="" alt="CE界面" data-align="center">
+
+<p>最后进入游戏看看有无效果：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTcN6S.gif" title="" alt="一击必杀效果" data-align="center">
+
+<p>可以看到满血史莱姆一镐子就没了，当然不止史莱姆，任何怪物都是一击必杀，因为懒的原因我就不去找其他怪物试刀了，你们可以自行测试。</p>
+<p>到这里一击必杀的效果就做出来了，而且不是修改高伤害那种<strong>伪·一击必杀</strong>，其实游戏修改很简单，难点在于思路，只要找对了思路，问题就会迎刃而解，当然也需要一些汇编基础才能看懂代码，但是最重要的还是思路。</p>
+<h3 id="无敌"><a href="#无敌" class="headerlink" title="无敌"></a>无敌</h3><p>既然我们拥有了最强的矛，那当然也得拥有最强的盾不是，和一击必杀类似，也有<strong>伪·无敌</strong>，找到人物血量基址，然后锁定血量即可达到受伤秒回复的效果，但是这样有个弊端就是如果遇到伤害很高的怪物，或者怪物群殴你的时候，就很有可能血量还没回复就被敌人秒杀了，所以不算真正的无敌，那么如何实现真正的无敌呢。</p>
+<p>同样的，当我们被攻击的时候也是两个触发事件，第一怪物或者怪物的技能碰到了我们的角色，第二我们的角色扣除相应的血量。看到这里是不是很熟悉，你说那我是不是可以根据第二个触发事件来修改，当怪物触碰到我们的时候，把那个受到的伤害值改为0？这样每次受到攻击都是无效的0点伤害，当然可以，你甚至还能把那个扣血的事件改为加血事件，这样当怪物攻击你的时候，你不仅不掉血，而且还加血，这样每个怪物在你眼里就成了无数个奶妈。</p>
+<p>那下面试着实现一下这两个思路，首先找到角色的血量地址，进入游戏，查看当前的血量，可看到我当前的血量是79：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTxhHH.png" title="" alt="角色当前血量" data-align="center">
+
+<p>返回CE搜索4字节的79：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTzEb4.png" title="" alt="CE界面" data-align="center">
+
+<p>还有很多结果，返回游戏让怪物攻击一下，再查看当前血量变成了61：</p>
+<img src="https://s4.ax1x.com/2022/02/18/HTz4MT.png" title="" alt="当前血量" data-align="center">
+
+<p>返回CE，搜索61，看到还剩两个结果：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7SuwQ.png" title="" alt="CE界面" data-align="center">
+
+<p>通过修改血量数值判断出第二个为角色血量地址：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7pWuT.png" title="" alt="CE界面" data-align="center">
+
+<p>右键该地址，<strong>查看是什么改写了这个地址</strong>：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H799PA.png" title="" alt="CE界面" data-align="center">
+
+<p>返回游戏，让怪物攻击一下，再返回CE，此时看到多了一个地址：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7CpeU.png" title="" alt="" data-align="center">
+
+<p>其实到这里，和一击必杀的步骤都是一样的，根据那个步骤操作就行，这里咱们直接快进到代码部分：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123; Game   : Terraria<span class="number">.</span>exe</span><br><span class="line"><span class="symbol">  Version:</span> </span><br><span class="line">  Date   : <span class="number">2022</span>-<span class="number">02</span>-<span class="number">18</span></span><br><span class="line">  Author : admin</span><br><span class="line"></span><br><span class="line">  This script does blah blah blah</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define(address,Terraria<span class="number">.</span>Player::Hurt+<span class="number">1177</span>)</span><br><span class="line">define(bytes,<span class="number">29</span> <span class="number">82</span> E4 <span class="number">03</span> <span class="number">00</span> <span class="number">00</span>)</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">sub</span> [<span class="built_in">edx</span>+000003E4],<span class="built_in">eax</span></span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line">  <span class="keyword">nop</span></span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">sub</span> [<span class="built_in">edx</span>+000003E4],<span class="built_in">eax</span></span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br></pre></td></tr></table></figure>
+
+<p>定位到<code>sub [edx+000003E4],eax</code>，如果你认真学习了一击必杀那个功能的实现，那你现在肯定知道<code>[edx+000003E4]</code>就是角色血量的地址，而<code>eax</code>即为受到的伤害值，<code>sub</code>是一个汇编指令，表示<strong>减</strong>，之前的<code>mov</code>代表<strong>数据传送</strong>，下面马上要用到的<code>add</code>表示<strong>加</strong>，其实很好理解，根据字面意思大概都能猜出来。那么这段的意思就是从当前血量里扣除受到的伤害值，我现在把<code>eax</code>改为0，那是不是就代表着，每次受到攻击都是0伤害值？</p>
+<p>注释掉<code>sub [edx+000003E4],eax</code>，增加一条语句为<code>sub [edx+000003E4],0</code>：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7FQkF.png" title="" alt="" data-align="center">
+
+<p>接着保存并激活脚本，进入游戏看看效果：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7kMut.gif" title="" alt="无敌效果" data-align="center">
+
+<p>可以看到虽然还是有显示受到的伤害数字，但是并不会掉血，无敌效果①达成。</p>
+<p>下面试下另一个效果，其实也很简单，只需要改动一点点代码：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7A6df.png" title="" alt="" data-align="center">
+
+<p>可以看到原代码为<code>sub [edx+000003E4],eax</code>，代表从血值里扣掉受到的伤害值，之前我们改为<code>sub [edx+000003E4],0</code>，就表示从血值里扣掉0点伤害值，相当于不受伤，现在我们改为<code>add [edx+000003E4],1</code>，表示受到伤害时，把1加到血值里面，这样每次受到攻击都会加1滴血。</p>
+<p>保存并激活脚本，进游戏看看效果：</p>
+<img src="https://s4.ax1x.com/2022/02/18/H7Vfrn.gif" title="" alt="无敌效果2" data-align="center">
+
+<p>很好，无敌效果②达成。</p>
+<p>但是会发现，有两个不完美的地方：①会显示受到伤害的数字，明明都已经无敌了，还显示个毛的伤害数字啊；②受到攻击时虽然不掉血，但是会被怪物撞得跳来跳去的，明明都已经无敌了，你这还疼得跳来跳去的算什么事啊？</p>
+<p>那么问题来了，有第三种无敌方法吗？</p>
+<p>俗话说得好，<strong>只要思想不滑坡，办法总比困难多</strong>，开头的时候说过，当被攻击的时候触发的是两个事件，一被怪物触碰到，二扣除所受伤害值的血量，我们根据第二个事件研究出了两个无敌思路，现在研究第一个事件，因为我们是先被怪物触碰到然后才会触发扣血的事件，那么如果移除这个碰撞事件，是不是就不会受到伤害了？</p>
+<p>前面我们找到了扣血函数的地址：<code>Terraria.Player::Hurt+1177</code>，现在我们在这个地址下断点，看看能否找到关于碰撞的函数：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HHQWod.png" title="" alt="" data-align="center">
+
+<p>下断点后返回游戏，随便找个怪挨打一下，挨打后会发现游戏被断下了，那证明这个地址有戏，分析一下，因为是先挨打再扣血，而我们是直接在扣血地址下的断点，那这个call大概率只是处理一些扣血以及死亡的函数，我们点击<strong>Step Out</strong>跳出这个call：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HH8Zfs.png" title="" alt="" data-align="center">
+
+<p>跳出这个call后来到这个地址：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HH8Lj0.png" title="" alt="" data-align="center">
+
+<p>这里我们发现上面这个地址call了<code>Terraria.Player::Hurt</code>，根据翻译猜测这个<code>Terraria.Player::Hurt</code>应该是处理角色受到伤害的一个总函数，那我们直接nop掉这个地址是不是就不会受到碰撞伤害了呢：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HHJEzn.png" title="" alt="" data-align="center">
+
+<p><code>nop</code>会提示该地址长度为6字节，但是<code>nop</code>只有一个字节，点yes会自动填充剩下的5字节。然后点<strong>Run</strong>再回游戏看看效果：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HHJ5Wj.gif" title="" alt="" data-align="center">
+
+<p>可以看到已经移除了碰撞检测，那我们还原刚才<code>nop</code>的代码，通过编写脚本来达到目的，和之前一样，复制其模块地址，然后编写脚本：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#123; Game   : Terraria<span class="number">.</span>exe</span><br><span class="line"><span class="symbol">  Version:</span> </span><br><span class="line">  Date   : <span class="number">2022</span>-<span class="number">02</span>-<span class="number">19</span></span><br><span class="line">  Author : admin</span><br><span class="line"></span><br><span class="line">  This script doe blah blah blah</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define(address,Terraria<span class="number">.</span>Player::Update_NPCCollision+7A1)</span><br><span class="line">define(bytes,E8 8A FE D9 FF)</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">call</span> Terraria<span class="number">.</span>Player::Hurt</span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">call</span> Terraria<span class="number">.</span>Player::Hurt</span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br></pre></td></tr></table></figure>
+
+<p>刚才我们是直接<code>nop</code>掉达到了目的，那么脚本如何编写呢，其实很简单，注释掉<code>call Terraria.Player::Hurt</code>就行了，注释掉就不会执行这个call：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HHtd8H.png" title="" alt="" data-align="center">
+
+<p>和之前一样，保存脚本，然后激活脚本进游戏测试效果：</p>
+<img src="https://s4.ax1x.com/2022/02/19/HHt5Mn.png" title="" alt="" data-align="center">
+
+<p>到这里，无敌功能就算是完美了，涉及到一些新东西如下断点，nop，call等等都是汇编知识，感兴趣的可以找相关书籍看看，也不用深究，这玩意学多了脑壳疼，单纯的写写修改器有点基础就够了，写修改器最重要的是思路。</p>
+<h3 id="极速"><a href="#极速" class="headerlink" title="极速"></a>极速</h3><p><strong>天下武功，唯快不破</strong>，只要我跑得够快，敌人就摸不到我。这个功能就来讲一下如何修改移动速度，别的不说，用来跑图是真的好使。</p>
+<p>如何找到移动速度这个地址呢，毕竟你不知道初始移动速度是多少，跑起来又是多少。但是如果你学过上一章的话，那你肯定记得利用角色基址来获取到其他地址这个操作，这里就不再赘述，没看过的去上一章看看。</p>
+<p>这里通过搜索<strong>speed</strong>关键词看能不能搜索出移动速度的地址来：</p>
+<img src="https://s4.ax1x.com/2022/02/20/HOJWfU.png" title="" alt="" data-align="center">
+
+<p>很明显这个<strong>moveSpeed</strong>就是我们要找的移动速度，我们按<kbd>A</kbd>键把这个地址添加到CE列表里：</p>
+<img src="https://s4.ax1x.com/2022/02/20/HOYNu9.png" title="" alt="" data-align="center">
+
+<p>可以看到它的值为单精度浮点数的1，那表明我们移动的时候速度为1，尝试修改一下为5，但是会发现返回游戏自动就改回1了，也就是说我们无法直接修改。</p>
+<p>那<strong>查看是什么改写了这个地址</strong>：</p>
+<img src="https://s4.ax1x.com/2022/02/20/HOYbuj.png" title="" alt="" data-align="center">
+
+<p>返回游戏会发现CE里跳出了一个地址，看到它的指令为<code>fstp dword ptr [esi+00000458]</code>，意思是将栈顶的值储存到<code>[esi+00000458]</code>这个指针地址里，然后弹出栈。既然下面有出栈，上面肯定就有一个入栈，我们浏览相关内存区域看看：</p>
+<img src="https://s4.ax1x.com/2022/02/20/HOYzCT.png" title="" alt="" data-align="center">
+
+<p>果然发现上面有一个<code>fld1</code>，它表示将浮点数1储存到栈顶：</p>
+<img title="" src="https://s4.ax1x.com/2022/02/20/HO5sT1.png" alt="" data-align="center">
+
+<p>分析一下，<code>fld1</code>将1压入栈顶，然后<code>fstp dword ptr [esi+00000458]</code>又将1储存到<code>[esi+00000458]</code>里，那显而易见的，<code>[esi+00000458]</code>这个指针地址里储存的就是移动速度的值。</p>
+<p>那么老规矩，在这个地址上写脚本：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123; Game   : Terraria<span class="number">.</span>exe</span><br><span class="line"><span class="symbol">  Version:</span> </span><br><span class="line">  Date   : <span class="number">2022</span>-<span class="number">02</span>-<span class="number">20</span></span><br><span class="line">  Author : admin</span><br><span class="line"></span><br><span class="line">  This script does blah blah blah</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define(address,Terraria<span class="number">.</span>Player::ResetEffects+FE)</span><br><span class="line">define(bytes,D9 9E <span class="number">58</span> <span class="number">04</span> <span class="number">00</span> <span class="number">00</span>)</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">fstp</span> <span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">esi</span>+<span class="number">00000458</span>]</span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line">  <span class="keyword">nop</span></span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">fstp</span> <span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">esi</span>+<span class="number">00000458</span>]</span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br></pre></td></tr></table></figure>
+
+<p>既然<code>fstp dword ptr [esi+00000458]</code>是将1存到移动速度的地址里，那导致我们的移动速度只有1，现在我们不要这段指令，注释掉，然后我们通过<code>mov</code>指令把我们想要的速度值放到速度的指针地址里，比如5：</p>
+<img src="https://s4.ax1x.com/2022/02/20/HOrcJs.png" title="" alt="" data-align="center">
+
+<p>请注意，移动速度是一个单精度的浮点数，需要在5的前面加个(float)强制转为浮点数，如果直接写整数的话肯定会出问题，因为浮点数在内存的存储方式与整数不一样。</p>
+<p>保存脚本后激活脚本进游戏看看效果：</p>
+<p><img src="https://s4.ax1x.com/2022/02/20/HOfQy9.gif"></p>
+<p>效果显著，如果你觉得5还是慢了，可以再改高一点，但是不宜过高，因为实测体验不好。</p>
+<h3 id="无限召唤"><a href="#无限召唤" class="headerlink" title="无限召唤"></a>无限召唤</h3><p>现在我们最强的矛与盾都有了，已经站在了世界之巅，这时候就需要一群小弟来衬托自己的身份，毕竟打个史莱姆都要自己动手显得很没有逼格。但是泰拉瑞亚原版最多只能召唤11个小弟，开玩笑，世界最强怎么只能拥有11个小弟，这个功能就讲讲怎么突破召唤限制。</p>
+<p>老规矩，通过角色基址找到最大召唤数量的地址：</p>
+<img src="https://s4.ax1x.com/2022/02/22/bSsfud.png" title="" alt="" data-align="center">
+
+<p>这里通过搜索<strong>max</strong>找到了<strong>maxMinions</strong>，这就是我们要找的最大召唤数量的地址，下面的<strong>numMinions</strong>是目前召唤出来的小弟数量，我们按<kbd>A</kbd>键把<strong>maxMinions</strong>添加到CE地址列表：</p>
+<img src="https://s4.ax1x.com/2022/02/22/bS6vt0.png" title="" alt="" data-align="center">
+
+<p>直接修改的话发现会被系统自动改回来，那右键这个地址<strong>查看是什么改写了它</strong>，返回游戏触发一下会发现CE里多了一个地址，我们选中这个地址，并浏览相关内存区域：</p>
+<img src="https://s4.ax1x.com/2022/02/22/bScsNq.png" title="" alt="" data-align="center">
+
+<p>看到后面的<code>mov [esi+00000298],00000001</code>，很明显<code>[esi+00000298]</code>就是最大召唤数量，那么意思就是把1移到最大召唤数量的地址里：</p>
+<img title="" src="https://s4.ax1x.com/2022/02/22/bSczVA.png" alt="" data-align="center">
+
+<p>那么我们通过脚本把这个1改为我们想要的最大召唤数量就行了：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123; Game   : Terraria<span class="number">.</span>exe</span><br><span class="line"><span class="symbol">  Version:</span> </span><br><span class="line">  Date   : <span class="number">2022</span>-<span class="number">02</span>-<span class="number">22</span></span><br><span class="line">  Author : admin</span><br><span class="line"></span><br><span class="line">  This script does blah blah blah</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define(address,Terraria<span class="number">.</span>Player::ResetEffects+30A)</span><br><span class="line">define(bytes,C7 <span class="number">86</span> <span class="number">98</span> <span class="number">02</span> <span class="number">00</span> <span class="number">00</span> <span class="number">01</span> <span class="number">00</span> <span class="number">00</span> <span class="number">00</span>)</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">mov</span> [<span class="built_in">esi</span>+<span class="number">00000298</span>],<span class="number">00000001</span></span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line">  <span class="keyword">nop</span> <span class="number">5</span></span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">mov</span> [<span class="built_in">esi</span>+<span class="number">00000298</span>],<span class="number">00000001</span></span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br></pre></td></tr></table></figure>
+
+<p>这应该算是最容易编写的一个脚本了吧，只需要改动一下数字就可以了，它是一个十六进制的4字节数字，比如我改为000000FF对应的十进制数量就是255个：</p>
+<img src="https://s4.ax1x.com/2022/02/22/bSRb80.png" title="" alt="" data-align="center">
+
+<p>如果你觉得255个少了，可以适量增加，但是过多的召唤物会增加你电脑的负担，255个完全够用了，保存脚本并激活它，进入游戏看看效果：</p>
+<img src="https://s4.ax1x.com/2022/02/22/bS40zt.gif" title="" alt="" data-align="center">
+
+<p>可以看见虽然才255个，但是肉眼可见的卡顿，电脑配置不好的话就很影响体验。</p>
+<p>这里我修改了星尘龙法杖的弹幕数量，所以挥一下就能召唤很多个，如果你是放在物品栏第一个格子修改的话，弹幕数量在<strong>inventory - Array[0] - useTime</strong>，对应的偏移为<strong>D0 - 8 - AC</strong>，值越小数量越多，改为0就能一下召唤很多个了。</p>
+<h3 id="备用，后续再更。"><a href="#备用，后续再更。" class="headerlink" title="备用，后续再更。"></a>备用，后续再更。</h3><hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2022/02/17/泰拉瑞亚修改教程 — 中/";</script><script>var DISQUS_IDENTIFIER = "2022/02/17/泰拉瑞亚修改教程 — 中/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>

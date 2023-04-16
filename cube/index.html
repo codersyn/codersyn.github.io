@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="author" content="Boris Sehovac">
+  <meta name="description" content="看看你是否能解决这个经典的益智游戏">
+  <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="魔方">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="manifest" href="assets/icons/site.webmanifest">
+  <link rel="mask-icon" href="assets/icons/safari-pinned-tab.svg" color="#5bbad5">
+  <link rel="shortcut icon" href="assets/icons/favicon.ico">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
+</head>
+<body>
+
+  <div class="ui">
+
+    <div class="ui__background"></div>
+
+    <div class="ui__game"></div>
+
+    <div class="ui__texts">
+      <h1 class="text text--title">
+        <span>魔方</span>
+      </h1>
+      <div class="text text--note">
+        双击以开始
+      </div>
+      <div class="text text--timer">
+        0:00
+      </div>
+      <div class="text text--complete">
+        <span>完成!</span>
+      </div>
+      <div class="text text--best-time">
+        <icon trophy></icon>
+        <span>最快时间!</span>
+      </div>
+    </div>
+
+    <div class="ui__prefs">
+      <range name="size" title="魔方阶数" list="2,3,4,5"></range>
+      <range name="flip" title="翻转动画" list="快速&nbsp;,平滑,Q弹"></range>
+      <range name="scramble" title="打乱次数" list="20,25,30"></range>
+      <range name="fov" title="相机角度" list="正交,透视"></range>
+      <range name="theme" title="主题颜色" list="魔方,埃尔诺,灰尘,迷彩,雨水"></range>
+    </div>
+
+    <div class="ui__theme">
+      <range name="hue" title="色调" color></range>
+      <range name="saturation" title="饱和度" color></range>
+      <range name="lightness" title="亮度" color></range>
+    </div>
+
+    <div class="ui__stats">
+      <div class="stats" name="cube-size">
+        <i>魔方阶数:</i><b>3x3x3</b>
+      </div>
+      <div class="stats" name="total-solves">
+        <i>完成次数:</i><b>-</b>
+      </div>
+      <div class="stats" name="best-time">
+        <i>最快时间:</i><b>-</b>
+      </div>
+      <div class="stats" name="worst-time">
+        <i>最慢时间:</i><b>-</b>
+      </div>
+      <div class="stats" name="average-5">
+        <i>5次平均数:</i><b>-</b>
+      </div>
+      <div class="stats" name="average-12">
+        <i>12次平均数:</i><b>-</b>
+      </div>
+      <div class="stats" name="average-25">
+        <i>25次平均数:</i><b>-</b>
+      </div>
+    </div>
+
+    <div class="ui__buttons">
+      <button class="btn btn--bl btn--stats">
+        <icon trophy></icon>
+      </button>
+      <button class="btn btn--br btn--prefs">
+        <icon settings></icon>
+      </button>
+      <button class="btn btn--bl btn--back">
+        <icon back></icon>
+      </button>
+      <button class="btn btn--br btn--theme">
+        <icon theme></icon>
+      </button>
+      <button class="btn btn--br btn--reset">
+        <icon reset></icon>
+      </button>
+    </div>
+
+  </div>
+
+  <script src="assets/js/three.js"></script>
+  <script src="assets/js/cube.js"></script>
+
+</body>
+</html>

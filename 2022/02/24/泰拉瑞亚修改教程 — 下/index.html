@@ -1,0 +1,126 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="这是泰拉瑞亚修改教程系列的最后一章，如果你没看过相关教程，可以从头看起。
+
+学会修改以后，如果朋友眼馋找你要脚本，那他需要下载CE，然后打开你的CT脚本，选择terraria进程后才能开始修改。
+如果有一定基础的话还好说，如果是小白那肯定一大堆问题，那你需要浪费很多时间来给他讲解，没有耐心的甚至直接"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>泰拉瑞亚修改教程 — 下 · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>泰拉瑞亚修改教程 — 下</h1><span class="post-meta">写于<time> 2022 年 02 月 24 日 18 时 18 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%88%E7%AB%A0-%E2%80%94-%E5%88%B6%E4%BD%9C%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">终章 — 制作修改器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E9%99%8B%E7%9A%84%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="toc-number">1.1.</span> <span class="toc-text">简陋的修改器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E7%9A%84%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="toc-number">1.2.</span> <span class="toc-text">标准的修改器</span></a></li></ol></li></ol></div><blockquote>
+<p>这是泰拉瑞亚修改教程系列的最后一章，如果你没看过相关教程，可以<a target="_blank" rel="noopener" href="https://sysy.su/2021/10/03/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B%20%E2%80%94%20%E4%B8%8A/">从头看起</a>。</p>
+</blockquote>
+<p>学会修改以后，如果朋友眼馋找你要脚本，那他需要下载CE，然后打开你的CT脚本，选择terraria进程后才能开始修改。</p>
+<p>如果有一定基础的话还好说，如果是小白那肯定一大堆问题，那你需要浪费很多时间来给他讲解，没有耐心的甚至直接就放弃了。</p>
+<p>这时候我们为了方便，就可以把脚本制作成exe可执行文件，就是常说的游戏修改器，这样别人就不需要下载CE直接打开你制作的修改器就能修改，那么如何把我们的脚本制作成一个单机游戏修改器呢？</p>
+<h2 id="终章-—-制作修改器"><a href="#终章-—-制作修改器" class="headerlink" title="终章 — 制作修改器"></a>终章 — 制作修改器</h2><p>绝大部分的程序语言都能做到这一点，使用什么语言来生成取决于你对该语言的掌握程度，但是作为一个只是单纯写修改器的没必要为了写个修改器就去学某门语言（不过如果这能成为你学编程的一个动力也不错）。</p>
+<p>考虑到时间成本，我们这里就直接用CE自带的功能，这样即使初学者也能很快上手，不必花费大量时间去钻研程序语言。</p>
+<h3 id="简陋的修改器"><a href="#简陋的修改器" class="headerlink" title="简陋的修改器"></a>简陋的修改器</h3><p>CE提供了一个生成修改器的模板，优点是非常适合初学者的使用，缺点是很简陋，还很丑。</p>
+<p>打开CE，点击<strong>File</strong>，找到：</p>
+<img src="https://s4.ax1x.com/2022/02/24/bFvq54.png" title="" alt="" data-align="center">
+
+<p>接下来你会看到这样一个界面：</p>
+<img src="https://s4.ax1x.com/2022/02/24/bFz6hQ.png" title="" alt="" data-align="center">
+
+<p>我们先看中间部分：</p>
+<img src="https://s4.ax1x.com/2022/02/24/bkp1iD.png" title="" alt="" data-align="center">
+
+<ul>
+<li><p>Processname：这个选择你所修改游戏的进程名，我们是修改泰拉瑞亚，那就是Terraria.exe。</p>
+</li>
+<li><p>Popup trainer on keypress：这个设置你修改器的呼出方式，打勾后在下面的输入框里输入你想设置的快捷键即可，比如设置Home键，那按这个键的时候修改器就会弹出来，非必要。</p>
+</li>
+<li><p>Title：修改器标题，比如“泰拉瑞亚修改器”。</p>
+</li>
+<li><p>About text：点击修改器上的About的时候会弹出的文字信息，你可以在里面写一些修改器描述，作者信息等等。</p>
+</li>
+<li><p>Set Icon：设置修改器左上角显示的图标，格式为.ico。</p>
+</li>
+<li><p>Set Side Image：设置侧边栏的背景图片。</p>
+</li>
+<li><p>User can resize window：勾选后用户可以随意调整修改器窗口大小，一般建议不勾选。</p>
+</li>
+<li><p>Generate trainer：生成修改器。</p>
+</li>
+<li><p>Play sound on activate/deactivate：设置激活/关闭某个功能时候的声音。</p>
+</li>
+</ul>
+<p>右边部分：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkaoZ9.png" title="" alt="" data-align="center">
+
+<p>这个是我们生成的修改器界面，也就是说你生成后修改器就长这个样子。</p>
+<p>左边部分：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bka7I1.png" title="" alt="" data-align="center">
+
+<p>这里设置热键，每个热键对应你写出来的功能。</p>
+<p>根据描述那我们可以设置成这样：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkaOxO.png" title="" alt="" data-align="center">
+
+<p>接下来点击左边部分的<strong>Add Hotkey</strong>来为修改器添加功能：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdmZj.png" title="" alt="" data-align="center">
+
+<p>因为我们的血量魔法这些地址是根据player地址来找到的，所以我们需要先激活<strong>获取player地址</strong>这个选项，选择后点击OK会来到下面这个界面：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdMiq.png" title="" alt="" data-align="center">
+
+<p>接下来点击<strong>Type the keys you want to set hotkey to</strong>下面的输入框键入一个热键，比如F1，设置完成大概这样：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdteJ.png" title="" alt="" data-align="center">
+
+<p>记得点击<strong>Apply</strong>添加你的热键到列表，接下来点击OK完成这个热键的添加：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdyOe.png" title="" alt="" data-align="center">
+
+<p>然后继续添加下一个热键和功能，还是点击Add Hotkey，这次我们选择设置生命上限的功能：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdIl8.png" title="" alt="" data-align="center">
+
+<p>这里我设置生命上限的热键为F2，注意下面的脚本功能选项选择<strong>Set value to</strong>，根据字面意思可了解为设置生命上限的数值为，这里我们设置为生命值的最大上限500：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkdHmQ.png" title="" alt="" data-align="center">
+
+<p>点击Apply保存后继续添加魔法上限，同理：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkwS6U.png" title="" alt="" data-align="center">
+
+<p>然后就是我们写好的脚本，一击必杀，无敌等功能：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkwpXF.png" title="" alt="" data-align="center">
+
+<p>最后都添加完成后大概是这样：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkwP0J.png" title="" alt="" data-align="center">
+
+<p>完成功能的添加后就可以开始生成修改器了，点击<strong>Generate trainer</strong>后进入下一个界面，需要注意的是<strong>保存的文件名不能含有中文</strong>，不然生成会报错：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkwEfx.png" title="" alt="" data-align="center">
+
+<p>基本上保持默认就好，点击Generate开始生成。</p>
+<p>生成后不出意外的话长这样：</p>
+<img src="https://s4.ax1x.com/2022/02/25/bkD3N9.png" title="" alt="" data-align="center">
+
+<p>你会发现不仅丑，甚至文字显示都不全，但是这些都不重要，因为它确实能用。</p>
+<p>这样你就可以把这玩意发给别人使用了，即使它很简陋，但是毕竟是我们一手造就的它，我们要对它给予更多的宽容。</p>
+<h3 id="标准的修改器"><a href="#标准的修改器" class="headerlink" title="标准的修改器"></a>标准的修改器</h3><p>上面我们学会了如何制作一个简陋的修改器，这里就学习如何把这个简陋的修改器变得更好看一些，至少使它不那么简陋。</p>
+<p>备用，后续再更。</p>
+<hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2022/02/24/泰拉瑞亚修改教程 — 下/";</script><script>var DISQUS_IDENTIFIER = "2022/02/24/泰拉瑞亚修改教程 — 下/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>

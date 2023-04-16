@@ -1,0 +1,127 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="一个关于泰拉瑞亚的简单修改教程，因为视频教程说有看不懂的地方，这里再做一个文字版本。
+
+环境及版本
+当前游戏版本 v1.4.2.3
+.NET Framework 4.8 (官网下载)
+CheatEngine 7.3 (官网下载)
+
+第一章 — Player地址的获取方法
+第一步，删掉同志短剑，#滑稽"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>泰拉瑞亚修改教程 — 上 · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>泰拉瑞亚修改教程 — 上</h1><span class="post-meta">写于<time> 2021 年 10 月 03 日 07 时 44 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%8A%E7%89%88%E6%9C%AC"><span class="toc-number">1.</span> <span class="toc-text">环境及版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E7%AB%A0-%E2%80%94-Player%E5%9C%B0%E5%9D%80%E7%9A%84%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">第一章 — Player地址的获取方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E2%80%94-%E5%88%A9%E7%94%A8%E8%84%9A%E6%9C%AC%E8%BF%9B%E8%A1%8C%E5%A4%8D%E6%9D%82%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-number">3.</span> <span class="toc-text">第二章 — 利用脚本进行复杂的修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E2%80%94-%E5%88%B6%E4%BD%9C%E4%BF%AE%E6%94%B9%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">第三章 — 制作修改器</span></a></li></ol></div><blockquote>
+<p>一个关于泰拉瑞亚的简单修改教程，因为视频教程说有看不懂的地方，这里再做一个文字版本。</p>
+</blockquote>
+<h3 id="环境及版本"><a href="#环境及版本" class="headerlink" title="环境及版本"></a>环境及版本</h3><ul>
+<li>当前游戏版本 v1.4.2.3</li>
+<li>.NET Framework 4.8 (<a target="_blank" rel="noopener" href="https://dotnet.microsoft.com/download/dotnet-framework/thank-you/net48-web-installer">官网下载</a>)</li>
+<li>CheatEngine 7.3 (<a target="_blank" rel="noopener" href="https://cheatengine.org/">官网下载</a>)</li>
+</ul>
+<h3 id="第一章-—-Player地址的获取方法"><a href="#第一章-—-Player地址的获取方法" class="headerlink" title="第一章 — Player地址的获取方法"></a>第一章 — Player地址的获取方法</h3><ul>
+<li><p><del>第一步，删掉同志短剑</del>，#滑稽</p>
+</li>
+<li><p>第一步，进入游戏，打开CE，进程选择附加到Terraria，搜索血值和魔法值的组合地址：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003081103842.png" alt="image-20211003081103842"></p>
+<p><em>注</em>：Value Type选择Grouped，然后在上面输入框内输入<code>4:100 4:100 4:100 4:20 4:20</code>，此处的100和20分别代表你的血值和魔法值，如你不是新角色，请自行更改为你当前的血值和魔法值，譬如你当前的角色血量为500，魔法值为200那就更改为<code>4:500 4:500 4:500 4:200 4:200</code>注意每组值之间有空格，然后点击First Scan。</p>
+</li>
+<li><p>第二步，开始搜索内存地址：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003091756165.png" alt="image-20211003091756165"></p>
+<p><em>注</em>：图上的内存地址每个人都不相同，因为它是动态变化的，不必因为和我的不同而产生自己错了的错觉。</p>
+</li>
+<li><p>第三步，选中第三个血值地址，右键查看是什么访问了它：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003092657177.png" alt="image-20211003092657177"></p>
+</li>
+<li><p>第四步，返回游戏，触发一下内存地址的刷新，再返回CE，选择最后一个地址：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003100323003.png" alt="image-20211003100323003"></p>
+<p><em>注</em>：务必先返回游戏触发一下，否则不会出现这个地址。地址不一定在最后一个，只要寄存器是<code>ebx</code>就行，选中该地址，然后点击右边的Show disassembler。</p>
+</li>
+<li><p>第五步，在弹出的页面复制动态地址的模块地址：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003101129902.png" alt="image-20211003101129902"></p>
+</li>
+<li><p>第六步，点击Tools，选择：Auto Assemble：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003101311839.png" alt="image-20211003101311839"></p>
+</li>
+<li><p>第七步，选择Template，选择Full Injection：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003101825161.png" alt="image-20211003101825161"></p>
+</li>
+<li><p>第八步，粘贴刚才复制的模块地址，然后点击OK进入编辑界面：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003102056277.png" alt="image-20211003102056277"></p>
+</li>
+<li><p>第九步，添加人造指针，此处直接贴出代码，自己按需修改：</p>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">define(address,Terraria<span class="number">.</span>Player::UpdateLifeRegen+BE9)  // 这里如果不同请替换为你的地址</span><br><span class="line">define(bytes,8B <span class="number">83</span> D8 <span class="number">03</span> <span class="number">00</span> <span class="number">00</span>)  // 同上</span><br><span class="line"></span><br><span class="line">[ENABLE]</span><br><span class="line"></span><br><span class="line">assert(address,bytes)</span><br><span class="line">alloc(newmem,<span class="number">$1000</span>)</span><br><span class="line">alloc(syn,<span class="number">4</span>)  // 为syn分配内存，syn可换为任意你喜欢的，下同</span><br><span class="line">registersymbol(syn)  // 注册全局名称syn</span><br><span class="line"></span><br><span class="line">label(code)</span><br><span class="line">label(return)</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">newmem:</span></span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">code:</span></span><br><span class="line">  <span class="keyword">mov</span> [syn],<span class="built_in">ebx</span>  // 移动寄存器<span class="built_in">ebx</span>里的地址到syn里</span><br><span class="line">  <span class="keyword">mov</span> <span class="built_in">eax</span>,[<span class="built_in">ebx</span>+000003D8]</span><br><span class="line">  <span class="keyword">jmp</span> return</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="keyword">jmp</span> newmem</span><br><span class="line">  <span class="keyword">nop</span></span><br><span class="line"><span class="symbol">return:</span></span><br><span class="line"></span><br><span class="line">[DISABLE]</span><br><span class="line"><span class="symbol"></span></span><br><span class="line"><span class="symbol">address:</span></span><br><span class="line">  <span class="built_in">db</span> bytes</span><br><span class="line">  // <span class="keyword">mov</span> <span class="built_in">eax</span>,[<span class="built_in">ebx</span>+000003D8]</span><br><span class="line"></span><br><span class="line">dealloc(newmem)</span><br><span class="line">dealloc(syn)  // 释放syn的内存</span><br><span class="line">unregistersymbol(syn)  // 取消syn的注册</span><br></pre></td></tr></table></figure>
+
+<p><em>注</em>：有添加代码的地方都做了注释，你可以手动在编辑框内输入在对应的位置，也可直接复制粘贴到你的编辑框，注意如果地址不同请以你自己的地址为准，不要覆盖了。编辑完成后点击左上角的File，然后点击Assign to current cheat table，这样就把脚本添加到了CE的主界面。</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003104829820.png" alt="image-20211003104829820"></p>
+</li>
+<li><p>第十步，回到CE主界面，其他多余的窗口都可关掉，点击右边的Add Address Manually添加地址，在框内输入<code>syn</code>，并勾选下面的Hexadecimal，最后点击OK保存。</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003105507769.png" alt="image-20211003105507769"></p>
+</li>
+<li><p>第十一步，勾选Auto Assemble script，并复制刚才添加的syn的地址，然后点击Memory View：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003113940196.png" alt="image-20211003113940196"></p>
+<p><em>注</em>：如果此步你的地址为000000，那返回游戏随便动一下就会有地址了。</p>
+</li>
+<li><p>第十二步，点击Memory View后来到这个页面，点击Tools，再点击Dissect data/structures：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003114504860.png" alt="image-20211003114504860"></p>
+</li>
+<li><p>第十三步，在输入框内粘贴刚才复制的地址，点击Structures，点击Define new structure：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003114823162.png" alt="image-20211003114823162"></p>
+<p>并在弹出的窗口点击OK：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003115148994.png" alt="image-20211003115148994"></p>
+<p><em>注</em>：此处输入框内自动显示的应是<code>Terraria.Player</code>才为正确，显示其他皆为错。</p>
+</li>
+<li><p>第十四步，根据英文描述修改自己想修改的东西即可：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003120351936.png" alt="image-20211003120351936"></p>
+<p>下面贴出一些常用修改项：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">statLifeMax--生命值上限</span><br><span class="line">statLife--当前生命值</span><br><span class="line">statManaMax--魔法值上限</span><br><span class="line">statMana--当前魔法值</span><br><span class="line">breath--当前氧气值（配合锁定可达到无限氧气）</span><br><span class="line">buffType--buff类型（需配合buff时间使用）</span><br><span class="line">buffTime--buff持续时间</span><br><span class="line">inventory--Array[0]--物品栏第一个格子</span><br><span class="line">下面的项目都是在物品栏第一个格子下：</span><br><span class="line">fishingPole--渔力</span><br><span class="line">bait--鱼饵力</span><br><span class="line">useAnimation--挥动速度</span><br><span class="line">stack--数量</span><br><span class="line">maxStack--最大数量</span><br><span class="line">pick--镐力</span><br><span class="line">axe--斧力</span><br><span class="line">hammer--锤力</span><br><span class="line">damage--伤害</span><br><span class="line">knockBack--击退力</span><br><span class="line">healLife--回复生命</span><br><span class="line">healMana--回复魔法</span><br><span class="line">scale--大小</span><br><span class="line">defense--防御力</span><br><span class="line">shoot--弹幕</span><br><span class="line">useTime--弹幕数量（值越小越多）</span><br><span class="line">shootSpeed--弹幕飞行速度</span><br><span class="line">netID--物品ID（修改后需返回到主菜单重进可生效）</span><br></pre></td></tr></table></figure>
+
+<p>到这里你基本能做到游戏内的大部分修改，但是某些特殊的功能无法做到（如无限召唤，一击必杀，地图高亮，物品全制作，时间加速等等），这些后续会慢慢讲到。现在的问题是你的修改目前是一次性的，如果退出了游戏就会导致无法再修改，因为目前的地址都是动态地址，重启游戏就会变动，所以我们需要把这些地址改为syn+偏移的形式，这样就算重启也不会失效。</p>
+</li>
+<li><p>第十五步，把动态地址改为指针地址，比如我想修改当前生命值：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003134408896.png" alt="image-20211003134408896"></p>
+<p>然后回到CE地址列表：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211003134858113.png" alt="image-20211003134858113"></p>
+<p><em>注</em>：你可能会想问为什么偏移是3d8，因为<img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/1633559546(1).png" alt="1633559546(1)">，仔细看英文描述前面的对应的就是这个地址的偏移。</p>
+<p>再比如我想修改镐子的攻击力，那就把镐子放到物品栏第一个格子：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/image-20211004143026141.png" alt="image-20211004143026141"></p>
+<p>然后在CE里定位到<img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/1633558673(1).png" alt="1633558673(1)">， 同样选中damage，按A键添加到地址列表，双击后把它修改为指针地址：</p>
+<p><img src="/../images/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B/1633330269(1).png" alt="1633330269(1)"></p>
+<p><em>注</em>：此处可看到damage的偏移为三级偏移，分别为D0，8，D4，那改为指针地址的时候就不能只添加D4，需要三个偏移都添加进去，如上图所示，需要注意的是多级指针的添加顺序是由下至上的。</p>
+</li>
+<li><p>最后，总结一下，看似步骤很多，其实也就两三分钟的事情，某些步骤完全就是一个操作拆分为几个步骤来讲，可谓真·保姆教程。简单来说就是搜索血值动态地址，根据动态地址的模块地址来编写脚本，实时获取到player动态地址，再根据player地址+偏移得到自己想修改的项。哦对了，最后一定别忘记保存你的地址列表为CT文件，别辛苦一番忘记保存了下次重新修改又得重新找地址。到这里第一章关于player地址的获取教程就结束了，下一章应该会写一些关于某些无法直接修改的项如何用脚本达到修改的目的，或者写如何用CE直接生成可直接运行的exe程序，再说吧。</p>
+</li>
+</ul>
+<h3 id="第二章-—-利用脚本进行复杂的修改"><a href="#第二章-—-利用脚本进行复杂的修改" class="headerlink" title="第二章 — 利用脚本进行复杂的修改"></a>第二章 — 利用脚本进行复杂的修改</h3><p><a target="_blank" rel="noopener" href="https://sysy.su/2022/02/17/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B%20%E2%80%94%20%E4%B8%AD/">第二章传送门</a></p>
+<h3 id="第三章-—-制作修改器"><a href="#第三章-—-制作修改器" class="headerlink" title="第三章 — 制作修改器"></a>第三章 — 制作修改器</h3><p><a target="_blank" rel="noopener" href="https://sysy.su/2022/02/24/%E6%B3%B0%E6%8B%89%E7%91%9E%E4%BA%9A%E4%BF%AE%E6%94%B9%E6%95%99%E7%A8%8B%20%E2%80%94%20%E4%B8%8B/">第三章传送门</a></p>
+<hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2021/10/03/泰拉瑞亚修改教程 — 上/";</script><script>var DISQUS_IDENTIFIER = "2021/10/03/泰拉瑞亚修改教程 — 上/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>

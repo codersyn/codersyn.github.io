@@ -1,0 +1,116 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="最近在网上看到一个免费分享iOS已购应用账号的网站，但是虽说免费，实则需要用积分来兑换，而积分通过充值或者签到来获取，作为资深白嫖党充值肯定是不会充值的，当然选择签到白嫖，不过签到讲究的就是一个日积月累，虽说动动手指就能完成的事，但是长期下来也是一件很累人的事，何况时不时还会忘记，所以这里直接利用c"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>用curl实现网页自动签到 · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>用curl实现网页自动签到</h1><span class="post-meta">写于<time> 2022 年 05 月 12 日 19 时 10 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong></div><blockquote>
+<p>最近在网上看到一个免费分享iOS已购应用账号的网站，但是虽说免费，实则需要用积分来兑换，而积分通过充值或者签到来获取，作为资深白嫖党充值肯定是不会充值的，当然选择签到白嫖，不过签到讲究的就是一个日积月累，虽说动动手指就能完成的事，但是长期下来也是一件很累人的事，何况时不时还会忘记，所以这里直接利用curl挂个脚本每天自动定时签到。</p>
+</blockquote>
+<ol>
+<li><p>先进入需要自动签到的网站：<a target="_blank" rel="noopener" href="http://www.kolagame.xyz/">考拉爱分享 (kolagame.xyz)</a></p>
+</li>
+<li><p>正常登录网站，勾选“记住我”选项</p>
+</li>
+</ol>
+<img src="https://s1.ax1x.com/2022/05/20/OL8B4A.png" title="" alt="" data-align="center">
+
+<ol start="3">
+<li>按F12打开开发者工具，切换到“网络”选项卡</li>
+</ol>
+<img src="https://s1.ax1x.com/2022/05/20/OLGm8I.png" title="" alt="" data-align="center">
+
+<ol start="4">
+<li>清除下面这些用不到的信息</li>
+</ol>
+<img src="https://s1.ax1x.com/2022/05/20/OLJBlt.png" title="" alt="" data-align="center">
+
+<ol start="5">
+<li>筛选器里选全部，然后点击签到按钮，会看到控制台弹出一些信息</li>
+</ol>
+<img src="https://s1.ax1x.com/2022/05/20/OLYiAe.png" title="" alt="" data-align="center">
+
+<ol start="6">
+<li>点击下面那个网页</li>
+</ol>
+<img src="https://s1.ax1x.com/2022/05/20/OLtXsx.png" title="" alt="" data-align="center">
+
+<p>可看到返回了一个json，msg后面的值是Unicode编码，转换成中文其实就是签到成功，获得50积分，那这个url就是我们需要的</p>
+<ol start="7">
+<li>右键，复制curl</li>
+</ol>
+<img title="" src="https://s1.ax1x.com/2022/05/20/OLUygs.png" alt="" data-align="left">
+
+<p>此时如果新建一个记事本，粘贴进去，可看到</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">curl <span class="string">&#x27;http://www.kolagame.xyz/wp-admin/admin-ajax.php&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept: application/json, text/javascript, */*; q=0.01&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Connection: keep-alive&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Content-Type: application/x-www-form-urlencoded; charset=UTF-8&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Cookie: wordpress_b31798e9c4af3742c**********9f864=W163843958869%7C1654226980%7C1m8GCqULeMKFksD1xfW*******6weDHRQuZDyo7QIWi7%7C9732d0bba8e6c70a*******09e456368c1458c95ad6ca6c67ad481348863f3b6c; pps_cookie_431=3_days; wordpress_logged_in_b31798e9c4af3742c2******64=W163843958869%7C1654226980%7C1m8GCqULeMKFksD1xfW******eDHRQuZDyo7QIWi7%7C5d4485412bcb7edb8dad16902bef84d9******e4a1d145b9209827aa153b&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Origin: http://www.kolagame.xyz&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Referer: http://www.kolagame.xyz/&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;X-Requested-With: XMLHttpRequest&#x27;</span> \</span><br><span class="line">  --data-raw <span class="string">&#x27;action=daily_sign&#x27;</span> \</span><br><span class="line">  --compressed \</span><br><span class="line">  --insecure</span><br></pre></td></tr></table></figure>
+
+<p>如果现在把这串代码粘贴进服务器终端就代表点了一次签到，我们把它放在脚本里，然后服务器添加一个定时任务，到时间就自动执行一遍脚本，这样就实现了每天自动签到</p>
+<p><em>注意：服务器如果为CentOS 7且版本较低的话不支持<code>--data-raw</code>选项，需要改为<code>--data</code></em></p>
+<ol start="8">
+<li>创建一个日志文件夹存放json反馈，然后写个脚本并创建定时任务</li>
+</ol>
+<ul>
+<li>创建存放日志的文件夹</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir qiandao</span><br></pre></td></tr></table></figure>
+
+<p>注意此处是直接用root用户创建的文件夹，所以<code>qiandao</code>文件夹是在<code>root</code>目录下。</p>
+<ul>
+<li>编写脚本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> qiandao</span><br><span class="line">vi qiandao.sh</span><br></pre></td></tr></table></figure>
+
+<p>然后脚本里写入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;-------------------&quot;</span> &gt;&gt; /root/qiandao/qiandao.log</span><br><span class="line"><span class="built_in">echo</span> $(date +%F%n%T) &gt;&gt; /root/qiandao/qiandao.log</span><br><span class="line"><span class="built_in">echo</span> $(curl <span class="string">&#x27;http://www.kolagame.xyz/wp-admin/admin-ajax.php&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept: application/json, text/javascript, */*; q=0.01&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Accept-Language: zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Connection: keep-alive&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Content-Type: application/x-www-form-urlencoded; charset=UTF-8&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Cookie: wordpress_b31798e9c4af3742c**********9f864=W163843958869%7C1654226980%7C1m8GCqULeMKFksD1xfW*******6weDHRQuZDyo7QIWi7%7C9732d0bba8e6c70a*******09e456368c1458c95ad6ca6c67ad481348863f3b6c; pps_cookie_431=3_days; wordpress_logged_in_b31798e9c4af3742c2******64=W163843958869%7C1654226980%7C1m8GCqULeMKFksD1xfW******eDHRQuZDyo7QIWi7%7C5d4485412bcb7edb8dad16902bef84d9******e4a1d145b9209827aa153b&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Origin: http://www.kolagame.xyz&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;Referer: http://www.kolagame.xyz/&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47&#x27;</span> \</span><br><span class="line">  -H <span class="string">&#x27;X-Requested-With: XMLHttpRequest&#x27;</span> \</span><br><span class="line">  --data-raw <span class="string">&#x27;action=daily_sign&#x27;</span> \</span><br><span class="line">  --compressed \</span><br><span class="line">  --insecure) &gt;&gt; /root/qiandao/qiandao.log</span><br></pre></td></tr></table></figure>
+
+<p>给脚本赋予执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x qiandao.sh</span><br></pre></td></tr></table></figure>
+
+<p>这样执行脚本之后结果就会反馈到qiandao文件夹下的qiandao.log日志里，注意把括号里curl的值换成你自己的</p>
+<ul>
+<li>添加定时任务</li>
+</ul>
+<p><code>crontab -e</code>编辑crontab文件，写入定时任务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">00 12 * * * /root/qiandao/qiandao.sh</span><br></pre></td></tr></table></figure>
+
+<p>这样就会每天中午12点自动执行签到脚本，并把结果反馈到日志文件里</p>
+<ol start="9">
+<li>查看反馈结果</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /root/qiandao/qiandao.log</span><br></pre></td></tr></table></figure>
+
+<p>可在终端看到反馈信息：</p>
+<img title="" src="https://s1.ax1x.com/2022/11/25/zY5H29.png" alt="" data-align="left">
+
+<p>这里Unicode转换为中文为“您今天已经签到了，明天再来吧！”，证明脚本生效。这样就解放双手不必每天手动签到了。</p>
+<p>其实原理很简单，通过浏览器F12开发者工具抓包签到按钮，然后利用curl和crontab每天帮我们自动访问即可达到每天自动签到的目的。</p>
+<hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2022/05/12/用curl实现网页自动签到/";</script><script>var DISQUS_IDENTIFIER = "2022/05/12/用curl实现网页自动签到/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>

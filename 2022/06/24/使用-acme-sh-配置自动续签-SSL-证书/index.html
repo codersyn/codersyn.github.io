@@ -1,0 +1,190 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="介绍TLS或传输层安全性及其前身SSL（代表安全套接字层）是用于将正常流量包装在受保护的加密包装器中的Web协议。
+使用此技术，服务器可以在服务器和客户端之间安全地发送流量，而不会使消息被外部方拦截。证书系统还帮助用户验证他们正在连接的站点的身份。
+在本指南中，我们将向你展示如何配置自动续签SSL证"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>使用 acme.sh 配置自动续签 SSL 证书 · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>使用 acme.sh 配置自动续签 SSL 证书</h1><span class="post-meta">写于<time> 2022 年 06 月 24 日 17 时 37 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%88%E5%86%B3%E6%9D%A1%E4%BB%B6"><span class="toc-number"></span> <span class="toc-text">先决条件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1-%E2%80%94-%E5%AE%89%E8%A3%85-acme-sh"><span class="toc-number"></span> <span class="toc-text">步骤 1 — 安装 acme.sh</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2-%E2%80%94-%E9%80%89%E6%8B%A9%E9%BB%98%E8%AE%A4-CA"><span class="toc-number"></span> <span class="toc-text">步骤 2 — 选择默认 CA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3-%E2%80%94-%E4%BD%BF%E7%94%A8-DNS-API-%E9%AA%8C%E8%AF%81%E7%AD%BE%E5%8F%91%E8%AF%81%E4%B9%A6"><span class="toc-number"></span> <span class="toc-text">步骤 3 — 使用 DNS API 验证签发证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4-%E2%80%94-%E5%AE%89%E8%A3%85%E8%AF%81%E4%B9%A6"><span class="toc-number"></span> <span class="toc-text">步骤 4 — 安装证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-5-%E2%80%94-%E9%85%8D%E7%BD%AE-Nginx-%E4%BB%A5%E4%BD%BF%E7%94%A8-SSL"><span class="toc-number"></span> <span class="toc-text">步骤 5 — 配置 Nginx 以使用 SSL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%8C%87%E5%90%91-SSL-%E5%AF%86%E9%92%A5%E5%92%8C%E8%AF%81%E4%B9%A6%E7%9A%84%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="toc-number">1.</span> <span class="toc-text">创建指向 SSL 密钥和证书的配置代码段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%BC%BA%E5%8A%A0%E5%AF%86%E8%AE%BE%E7%BD%AE%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%A0%81%E6%AE%B5"><span class="toc-number">2.</span> <span class="toc-text">使用强加密设置创建配置代码段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-dhparam-pem"><span class="toc-number">3.</span> <span class="toc-text">生成 dhparam.pem</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E6%95%B4Nginx%E9%85%8D%E7%BD%AE%E4%BB%A5%E4%BD%BF%E7%94%A8SSL"><span class="toc-number">4.</span> <span class="toc-text">调整Nginx配置以使用SSL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-6-%E2%80%94-%E8%B0%83%E6%95%B4%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number"></span> <span class="toc-text">步骤 6 — 调整防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-7-%E5%90%AF%E7%94%A8Nginx%E4%B8%AD%E7%9A%84%E6%9B%B4%E6%94%B9"><span class="toc-number"></span> <span class="toc-text">步骤 7 - 启用Nginx中的更改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-8-%E2%80%94-%E6%B5%8B%E8%AF%95%E5%8A%A0%E5%AF%86"><span class="toc-number"></span> <span class="toc-text">步骤 8 — 测试加密</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">完结</span></a></div><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p><em>TLS</em>或传输层安全性及其前身<em>SSL</em>（代表安全套接字层）是用于将正常流量包装在受保护的加密包装器中的Web协议。</p>
+<p>使用此技术，服务器可以在服务器和客户端之间安全地发送流量，而不会使消息被外部方拦截。证书系统还帮助用户验证他们正在连接的站点的身份。</p>
+<p>在本指南中，我们将向你展示如何配置自动续签SSL证书，以便在Debian 10服务器上与Nginx Web服务器一起使用。</p>
+<h2 id="先决条件"><a href="#先决条件" class="headerlink" title="先决条件"></a>先决条件</h2><ul>
+<li>一台 Debian 10 服务器、一个具有管理权限的非 root 用户和一个活动的防火墙。要设置这些东西，请遵循 <a target="_blank" rel="noopener" href="https://sysy.su/2022/05/21/%E5%A6%82%E4%BD%95%E7%A7%91%E5%AD%A6%E7%9A%84%E4%BD%BF%E7%94%A8Debian/">Debian 10 教程的初始服务器设置</a>。</li>
+<li>Nginx 安装在你的服务器上，遵循<a target="_blank" rel="noopener" href="https://sysy.su/2022/05/25/%E5%A6%82%E4%BD%95%E5%9C%A8Debian%E4%B8%8A%E5%AE%89%E8%A3%85Nginx/">如何在 Debian 10 上安装 Nginx</a>。</li>
+</ul>
+<h2 id="步骤-1-—-安装-acme-sh"><a href="#步骤-1-—-安装-acme-sh" class="headerlink" title="步骤 1 — 安装 acme.sh"></a>步骤 1 — 安装 <a target="_blank" rel="noopener" href="http://acme.sh/">acme.sh</a></h2><p><a target="_blank" rel="noopener" href="https://acme.sh/">acme.sh</a> 是一个集成了 ACME 客户端协议的 Bash 脚本，作者是 <a target="_blank" rel="noopener" href="https://twitter.com/neilpangxa">@neilpangxa</a>，按照<a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">官方文档</a>说明，我们直接在 Linux 下安装。</p>
+<p>安装acme前置依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install curl socat</span><br></pre></td></tr></table></figure>
+
+<p>安装acme：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl https://get.acme.sh | sh -s email=username@example.com</span><br></pre></td></tr></table></figure>
+
+<p>请注意替换 <code>username@example.com</code> 为你自己的邮箱，避免无法收到上游证书的邮件通知，比如 Let’s Encrypt 偶尔会错发证书，然后就会邮件通知你，这时候就需要重新签发一次证书了。</p>
+<p>安装完成后重新加载 Bash：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>然后也可以开启自动更新：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --upgrade --auto-upgrade</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤-2-—-选择默认-CA"><a href="#步骤-2-—-选择默认-CA" class="headerlink" title="步骤 2 — 选择默认 CA"></a>步骤 2 — 选择默认 CA</h2><p>目前 <a target="_blank" rel="noopener" href="http://acme.sh/">acme.sh</a> 支持四个正式环境 CA，分别是 Let’s Encrypt、Buypass、ZeroSSL 和 <a target="_blank" rel="noopener" href="http://ssl.com/">SSL.com</a>，默认使用 ZeroSSL，如果需要更换可以使用如下命令：</p>
+<p>切换 Let’s Encrypt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca --server letsencrypt</span><br></pre></td></tr></table></figure>
+
+<p>切换 Buypass</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca --server buypass</span><br></pre></td></tr></table></figure>
+
+<p>切换 ZeroSSL</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca --server zerossl</span><br></pre></td></tr></table></figure>
+
+<p>切换 <a target="_blank" rel="noopener" href="http://ssl.com/">SSL.com</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca --server ssl.com</span><br></pre></td></tr></table></figure>
+
+<p>切换 Google Public CA</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --set-default-ca --server google</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤-3-—-使用-DNS-API-验证签发证书"><a href="#步骤-3-—-使用-DNS-API-验证签发证书" class="headerlink" title="步骤 3 — 使用 DNS API 验证签发证书"></a>步骤 3 — 使用 DNS API 验证签发证书</h2><p><a target="_blank" rel="noopener" href="http://acme.sh/">acme.sh</a>提供了三种验证方式：HTTP 方式、手动 DNS 方式和 DNS API 方式。<strong>推荐使用 DNS API 方式</strong>。</p>
+<p>这里以 Cloudflare 为例，登录 Cloudflare Dash 后在 <a target="_blank" rel="noopener" href="https://dash.cloudflare.com/profile/api-tokens">API Token</a> 菜单里查看你的<strong>Global API Key</strong>，复制备用。</p>
+<p>接着在终端运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> CF_Key=<span class="string">&quot;复制的Global API Key&quot;</span></span><br><span class="line"><span class="built_in">export</span> CF_Email=<span class="string">&quot;你的cloudflare邮箱&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后开启 <a target="_blank" rel="noopener" href="http://acme.sh/">acme.sh</a> 的 DNS API 模式申请证书</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --issue --dns dns_cf -d example.com -d *.example.com</span><br></pre></td></tr></table></figure>
+
+<p>请把<code>example.com</code>替换为你自己的域名。</p>
+<h2 id="步骤-4-—-安装证书"><a href="#步骤-4-—-安装证书" class="headerlink" title="步骤 4 — 安装证书"></a>步骤 4 — 安装证书</h2><p>把证书安装到<code>/etc/ssl</code>目录下需要先给用户分配权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R <span class="variable">$USER</span>:<span class="variable">$USER</span> /etc/ssl</span><br></pre></td></tr></table></figure>
+
+<p>请把<code>example.com</code>替换为你自己的域名。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --install-cert -d example.com \</span><br><span class="line">--key-file       /etc/ssl/example.com.key  \</span><br><span class="line">--fullchain-file /etc/ssl/example.com.crt \</span><br><span class="line">--ca-file        /etc/ssl/example.com.ca.crt \</span><br><span class="line">--reloadcmd     <span class="string">&quot;sudo systemctl restart nginx&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>对应的 Nginx 配置指定证书文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate /etc/ssl/example.com.crt;</span><br><span class="line">ssl_certificate_key /etc/ssl/example.com.key;</span><br><span class="line">ssl_trusted_certificate /etc/ssl/example.com.ca.crt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤-5-—-配置-Nginx-以使用-SSL"><a href="#步骤-5-—-配置-Nginx-以使用-SSL" class="headerlink" title="步骤 5 — 配置 Nginx 以使用 SSL"></a>步骤 5 — 配置 Nginx 以使用 SSL</h2><p>我们已经在<code>/etc/ssl</code>目录下创建了密钥和证书文件。现在我们只需要修改我们的Nginx配置就能利用这些证书了。</p>
+<p>我们将对配置进行一些调整。</p>
+<ol>
+<li>我们将创建一个包含 SSL 密钥和证书文件位置的配置代码段。</li>
+<li>我们将创建一个包含强 SSL 设置的配置代码段，这些设置将来可用于任何证书。</li>
+<li>我们将调整我们的Nginx服务器块来处理SSL请求，并使用上面的两个代码段。</li>
+</ol>
+<p>这种配置Nginx的方法将使我们能够保持干净的服务器块，并将常见的配置段放入可重用的模块中。</p>
+<h3 id="创建指向-SSL-密钥和证书的配置代码段"><a href="#创建指向-SSL-密钥和证书的配置代码段" class="headerlink" title="创建指向 SSL 密钥和证书的配置代码段"></a>创建指向 SSL 密钥和证书的配置代码段</h3><p>首先，让我们在<code>/etc/nginx/snippets</code>目录中创建一个新的Nginx配置代码段。</p>
+<p>为了正确区分此文件的用途，我们称之为：<code>cer-local.conf</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/nginx/snippets/cer-local.conf</span><br></pre></td></tr></table></figure>
+
+<p>在此文件中，我们将证书配置文件的存放地址放到里面。将以下行添加到文件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssl_certificate /etc/ssl/example.com.crt;</span><br><span class="line">ssl_certificate_key /etc/ssl/example.com.key;</span><br><span class="line">ssl_trusted_certificate /etc/ssl/example.com.ca.crt;</span><br></pre></td></tr></table></figure>
+
+<p>添加这些行后，保存并关闭文件。</p>
+<h3 id="使用强加密设置创建配置代码段"><a href="#使用强加密设置创建配置代码段" class="headerlink" title="使用强加密设置创建配置代码段"></a>使用强加密设置创建配置代码段</h3><p>接下来，我们将创建另一个代码段，用于定义一些 SSL 设置。这将为Nginx设置一个强大的SSL密码套件，并启用一些高级功能，这将有助于保持我们的服务器安全。</p>
+<p>我们将设置的参数可以在将来的Nginx配置中重用，因此我们将为文件指定一个通用名称：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/nginx/snippets/ssl-params.conf</span><br></pre></td></tr></table></figure>
+
+<p>为了安全地设置Nginx SSL，我们将使用Remy van Elst在 <a target="_blank" rel="noopener" href="https://cipherli.st/"><strong>Cipherli.st</strong></a> 网站上的建议。此站点旨在为流行软件提供易于使用的加密设置。</p>
+<p><strong>注意：</strong><strong><a target="_blank" rel="noopener" href="http://cipherli.st/">Cipherli.st</a></strong> 站点上的建议设置提供了强大的安全性。有时，这是以提高客户端兼容性为代价的。如果您需要支持较旧的客户端，可以通过单击页面上标记为“<strong>是，给我一个适用于旧版/旧版软件的密码套件</strong>”的链接来访问该列表。该列表可以替换为以下项目。</p>
+<p>使用哪种配置的选择很大程度上取决于你需要支持的内容。它们都将提供出色的安全性。</p>
+<p>出于我们的目的，我们可以完整地复制提供的设置。我们只需要做一些小的修改。</p>
+<p>首先，我们将为上游请求添加首选的 DNS 解析程序，本指南将使用谷歌DNS作为DNS 解析程序。</p>
+<p>其次，我们将注释掉设置严格传输安全标头的行。在取消注释此行之前，你应该花点时间阅读<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HTTP严格传输安全或HSTS</a>，特别是其<a target="_blank" rel="noopener" href="https://hstspreload.org/">“预加载”功能</a>。预加载 HSTS 可提高安全性，但如果意外启用或错误启用，可能会产生深远的影响。</p>
+<p>将以下内容复制到代码段文件中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ssl_protocols TLSv1.2;</span><br><span class="line">ssl_prefer_server_ciphers on;</span><br><span class="line">ssl_dhparam /etc/nginx/dhparam.pem;</span><br><span class="line">ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384;</span><br><span class="line">ssl_ecdh_curve secp384r1; <span class="comment"># Requires nginx &gt;= 1.1.0</span></span><br><span class="line">ssl_session_timeout  10m;</span><br><span class="line">ssl_session_cache shared:SSL:10m;</span><br><span class="line">ssl_session_tickets off; <span class="comment"># Requires nginx &gt;= 1.5.9</span></span><br><span class="line">ssl_stapling on; <span class="comment"># Requires nginx &gt;= 1.3.7</span></span><br><span class="line">ssl_stapling_verify on; <span class="comment"># Requires nginx =&gt; 1.3.7</span></span><br><span class="line">resolver 8.8.8.8 8.8.4.4 valid=300s;</span><br><span class="line">resolver_timeout 5s;</span><br><span class="line"><span class="comment"># Disable strict transport security for now. You can uncomment the following</span></span><br><span class="line"><span class="comment"># line if you understand the implications.</span></span><br><span class="line"><span class="comment"># add_header Strict-Transport-Security &quot;max-age=63072000; includeSubDomains; preload&quot;;</span></span><br><span class="line">add_header X-Frame-Options DENY;</span><br><span class="line">add_header X-Content-Type-Options nosniff;</span><br><span class="line">add_header X-XSS-Protection <span class="string">&quot;1; mode=block&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成-dhparam-pem"><a href="#生成-dhparam-pem" class="headerlink" title="生成 dhparam.pem"></a>生成 dhparam.pem</h3><p>OpenSSL 的 dhparam 用于生成和管理 dh 文件。dh(Diffie-Hellman) 是著名的密钥交换协议，它可以保证通信双方安全地交换密钥。</p>
+<p>使用如下命令生成一个 <code>dhparam.pem</code> 文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl dhparam -out /etc/nginx/dhparam.pem 2048</span><br></pre></td></tr></table></figure>
+
+<h3 id="调整Nginx配置以使用SSL"><a href="#调整Nginx配置以使用SSL" class="headerlink" title="调整Nginx配置以使用SSL"></a>调整Nginx配置以使用SSL</h3><p>现在我们有了代码段，我们可以调整Nginx配置以启用SSL。</p>
+<p>本指南假设你正在<code>/etc/nginx/sites-available/your_domain</code>目录中使用自定义服务器块配置文件，如安装Nginx的先决条件教程中<a target="_blank" rel="noopener" href="https://sysy.su/2022/05/25/%E5%A6%82%E4%BD%95%E5%9C%A8Debian%E4%B8%8A%E5%AE%89%E8%A3%85Nginx/#%E6%AD%A5%E9%AA%A4-5-%E2%80%93-%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%9D%97">步骤5</a>所述。</p>
+<p>现在，打开配置文件进行调整：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/nginx/sites-available/your_domain</span><br></pre></td></tr></table></figure>
+
+<p>如果遵循先决条件，则服务器块将如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    listen [::]:80;</span><br><span class="line"></span><br><span class="line">    root /var/www/your_domain/html;</span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name your_domain www.your_domain;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">            try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你文件的顺序可能不同，并且你可能具有一些其他自定义配置语句，这没关系，因为我们只需要更新SSL代码段就行。我们将新增一个监听443端口的服务器块以提供 SSL 流量，然后修改之前的服务器块自动将流量重定向到443端口 。</p>
+<p><strong>注意：</strong>我们将使用302重定向，直到我们验证一切正常之后，可以将其更改为永久的301重定向。</p>
+<p>在现有配置文件中，新建服务器块监听443端口以使用SSL，并用<code>include</code>导入我们之前创建的两个代码段：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    listen [::]:443 ssl;</span><br><span class="line">    include snippets/cer-local.conf;</span><br><span class="line">    include snippets/ssl-params.conf;</span><br><span class="line"></span><br><span class="line">    root /var/www/your_domain/html;</span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name your_domain www.your_domain;</span><br><span class="line"></span><br><span class="line">    . . .</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来，将旧的服务器块修改如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">. . .</span><br><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    listen [::]:80;</span><br><span class="line"></span><br><span class="line">    server_name your_domain www.your_domain;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 302 https://$server_name<span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个基本配置，用于侦听80端口并执行重定向到 HTTPS，完成编辑后保存并关闭文件。</p>
+<p>一个完整的配置文件可能如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    listen [::]:80;</span><br><span class="line"></span><br><span class="line">    server_name your_domain www.your_domain;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 301 https://$server_name<span class="variable">$request_uri</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line">    listen [::]:443 ssl;</span><br><span class="line">    include snippets/cer-local.conf;</span><br><span class="line">    include snippets/ssl-params.conf;</span><br><span class="line"></span><br><span class="line">    root /var/www/your_domain/html;</span><br><span class="line">    index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">    server_name your_domain www.your_domain;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">            try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ =404;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤-6-—-调整防火墙"><a href="#步骤-6-—-调整防火墙" class="headerlink" title="步骤 6 — 调整防火墙"></a>步骤 6 — 调整防火墙</h2><p>如果按照先决条件指南的建议启用了防火墙，则需要调整设置以允许 SSL 流量。幸运的是，Nginx在安装时注册了一些配置文件。</p>
+<p>我们可以通过键入以下内容来查看可用的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw app list</span><br></pre></td></tr></table></figure>
+
+<p>你应该会看到如下列表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">OutputAvailable applications:</span><br><span class="line">. . .</span><br><span class="line">  Nginx Full</span><br><span class="line">  Nginx HTTP</span><br><span class="line">  Nginx HTTPS</span><br><span class="line">. . .</span><br></pre></td></tr></table></figure>
+
+<p>你可以通过键入以下内容来查看当前设置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw status</span><br></pre></td></tr></table></figure>
+
+<p>如果你遵循了先决条件，它将如下所示，这意味着只允许将 HTTP 流量发送到 Web 服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OutputStatus: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">OpenSSH                    ALLOW       Anywhere</span><br><span class="line">Nginx HTTP                 ALLOW       Anywhere</span><br><span class="line">OpenSSH (v6)               ALLOW       Anywhere (v6)</span><br><span class="line">Nginx HTTP (v6)            ALLOW       Anywhere (v6)</span><br></pre></td></tr></table></figure>
+
+<p>为了另外允许HTTPS流量进入，我们可以允许“Nginx Full”配置文件，然后删除冗余的“Nginx HTTP”配置文件允许：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Nginx Full&#x27;</span></span><br><span class="line">sudo ufw delete allow <span class="string">&#x27;Nginx HTTP&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>你的状态现在应如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw status</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OutputStatus: active</span><br><span class="line"></span><br><span class="line">To                         Action      From</span><br><span class="line">--                         ------      ----</span><br><span class="line">OpenSSH                    ALLOW       Anywhere</span><br><span class="line">Nginx Full                 ALLOW       Anywhere</span><br><span class="line">OpenSSH (v6)               ALLOW       Anywhere (v6)</span><br><span class="line">Nginx Full (v6)            ALLOW       Anywhere (v6)</span><br></pre></td></tr></table></figure>
+
+<p>正确配置防火墙后，我们可以继续测试Nginx配置。</p>
+<h2 id="步骤-7-启用Nginx中的更改"><a href="#步骤-7-启用Nginx中的更改" class="headerlink" title="步骤 7 - 启用Nginx中的更改"></a>步骤 7 - 启用Nginx中的更改</h2><p>现在我们已经进行了更改并调整了防火墙，我们可以重新启动Nginx来实现我们的新更改。</p>
+<p>首先，我们应该检查以确保我们的文件中没有语法错误。我们可以通过键入以下内容来执行此操作：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br></pre></td></tr></table></figure>
+
+<p>如果一切成功，你将获得如下所示的结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf <span class="built_in">test</span> is successful</span><br></pre></td></tr></table></figure>
+
+<p>如果输出与上述内容匹配，则配置文件没有语法错误。我们可以安全地重新启动Nginx来实现我们的更改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<p>通过测试我们的Nginx配置，我们可以继续测试我们的设置。</p>
+<h2 id="步骤-8-—-测试加密"><a href="#步骤-8-—-测试加密" class="headerlink" title="步骤 8 — 测试加密"></a>步骤 8 — 测试加密</h2><p>现在，我们已准备好测试 SSL 服务器。</p>
+<p>打开 Web 浏览器，然后在地址栏中键入<code>https://</code>+服务器的域名或 IP：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://your_domain_or_server_IP</span><br></pre></td></tr></table></figure>
+
+<p>如果不出意外查看浏览器地址栏，你将会看到一个安全的小锁。在这种情况下，意味着SSL证书正在加密你的连接。</p>
+<p><img src="https://s1.ax1x.com/2022/06/24/jF1Dk6.png" alt="Nginx 自签名证书警告"></p>
+<p>如果你为Nginx配置了自动将HTTP内容重定向到HTTPS的服务器块，你还可以检查重定向功能是否正确：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://server_domain_or_IP</span><br></pre></td></tr></table></figure>
+
+<p>如果地址栏的<code>http://</code>自动变成了<code>https://</code>，则表示你的重定向工作正常。</p>
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>现在你的网站已将 Nginx 服务器配置为对客户端连接使用强加密。这将允许你安全地为请求提供服务，并防止外部各方读取你的流量。</p>
+<hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2022/06/24/使用-acme-sh-配置自动续签-SSL-证书/";</script><script>var DISQUS_IDENTIFIER = "2022/06/24/使用-acme-sh-配置自动续签-SSL-证书/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>

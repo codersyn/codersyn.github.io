@@ -1,0 +1,110 @@
+<!DOCTYPE html><html class="han-init" lang="zh-Hant"><head><meta name="author" content="Syn"><meta name="description" itemprop="description" content="介绍在本教程中，将学习一个全新的Debian服务器如何进行一些初始的服务器设置：
+
+以 root 用户身份登录
+
+创建具有管理员权限的新用户
+
+设置基本防火墙
+
+
+步骤 1 — 以 Root 用户身份登录以 root 用户身份登录：
+1ssh root@your_server_ip
+
+关于Rootr"><link rel="alternative" href="/atom.xml" title="神秘菜鸟" type="application/atom+xml"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>如何科学的使用Debian · 好吧其实一点也不神秘，但菜是真的</title><link rel="stylesheet" type="text/css" href="/font/fantasque_sans_mono/stylesheet.css"><link rel="stylesheet" type="text/css" href="/styles/webicons.min.css"><link rel="stylesheet" type="text/css" href="/styles/han.min.css"><link rel="stylesheet" type="text/css" href="/styles/screen.css"><link rel="stylesheet" type="text/css" href="/styles/gruvbox-dark.min.css"><meta name="generator" content="Hexo 6.0.0"></head><body><header><a href="/"><img class="logo" src="/images/avatar.jpg" alt="神秘菜鸟" title="神秘菜鸟"></a><h1><a href="/" alt="神秘菜鸟" title="神秘菜鸟">神秘菜鸟</a></h1><p>好吧其实一点也不神秘，但菜是真的</p><nav><ul><li><a href="/" alt="首页" title="首页">首页</a></li><li><a href="/pigeonhole" alt="归档" title="归档">归档</a></li><li><a href="/about" alt="关于" title="关于">关于</a></li><li><a href="https://codersyn.github.io/cube" alt="魔方" title="魔方">魔方</a></li><li><a target="_blank" rel="noopener" href="https://drive.sysy.su" alt="网盘" title="网盘">网盘</a></li><li><a target="_blank" rel="noopener" href="https://status.sysy.su" alt="探针" title="探针">探针</a></li></ul><div class="xnews-icon"><a target="_blank" href="/atom.xml">&#xe609;</a><a target="_blank" href="https://github.com/codersyn" style="position: relative; top: -2px;">&#xe64a;</a><a target="_blank" href="https://space.bilibili.com/38264344">&#xe601;</a><a target="_blank" href="https://music.163.com/#/user/278148839">&#xe774;</a></div></nav><div class="space"></div></header><main><article class="full"><h1>如何科学的使用Debian</h1><span class="post-meta">写于<time> 2022 年 05 月 21 日 19 时 33 分</time><br>更新于<time> 2023 年 04 月 16 日 22 时 00 分</time></span><div class="article-toc"><strong>大纲</strong><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-1-%E2%80%94-%E4%BB%A5-Root-%E7%94%A8%E6%88%B7%E8%BA%AB%E4%BB%BD%E7%99%BB%E5%BD%95"><span class="toc-number"></span> <span class="toc-text">步骤 1 — 以 Root 用户身份登录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ERoot"><span class="toc-number">1.</span> <span class="toc-text">关于Root</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-2-%E2%80%94-%E5%88%9B%E5%BB%BA%E6%96%B0%E7%94%A8%E6%88%B7"><span class="toc-number"></span> <span class="toc-text">步骤 2 — 创建新用户</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-3-%E2%80%94-%E6%8E%88%E4%BA%88%E7%AE%A1%E7%90%86%E5%91%98%E6%9D%83%E9%99%90"><span class="toc-number"></span> <span class="toc-text">步骤 3 — 授予管理员权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-4-%E2%80%94-%E8%AE%BE%E7%BD%AE%E5%9F%BA%E6%9C%AC%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-number"></span> <span class="toc-text">步骤 4 — 设置基本防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E9%AA%A4-5-%E2%80%94-%E4%B8%BA%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E5%90%AF%E7%94%A8%E5%A4%96%E9%83%A8%E8%AE%BF%E9%97%AE"><span class="toc-number"></span> <span class="toc-text">步骤 5 — 为普通用户启用外部访问</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C-root-%E5%B8%90%E6%88%B7%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">如果 root 帐户使用密码身份验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E6%9E%9C-root-%E8%B4%A6%E6%88%B7%E4%BD%BF%E7%94%A8-SSH-%E5%AF%86%E9%92%A5%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">2.</span> <span class="toc-text">如果 root 账户使用 SSH 密钥身份验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number"></span> <span class="toc-text">完结</span></a></div><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>在本教程中，将学习一个全新的Debian服务器如何进行一些初始的服务器设置：</p>
+<ul>
+<li><p>以 <strong>root</strong> 用户身份登录</p>
+</li>
+<li><p>创建具有管理员权限的新用户</p>
+</li>
+<li><p>设置基本防火墙</p>
+</li>
+</ul>
+<h2 id="步骤-1-—-以-Root-用户身份登录"><a href="#步骤-1-—-以-Root-用户身份登录" class="headerlink" title="步骤 1 — 以 Root 用户身份登录"></a>步骤 1 — 以 Root 用户身份登录</h2><p>以 <strong>root</strong> 用户身份登录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@your_server_ip</span><br></pre></td></tr></table></figure>
+
+<h3 id="关于Root"><a href="#关于Root" class="headerlink" title="关于Root"></a>关于Root</h3><p><strong>root</strong> 用户是 Linux 环境中具有非常广泛的特权的管理用户。由于 <strong>root</strong> 帐户的权限很高，<em>因此不建议</em>长期使用它，某些时候一些误操作可能会对系统造成不可挽回的损失。</p>
+<h2 id="步骤-2-—-创建新用户"><a href="#步骤-2-—-创建新用户" class="headerlink" title="步骤 2 — 创建新用户"></a>步骤 2 — 创建新用户</h2><p>此示例创建一个名为 <strong>syn</strong> 的新用户，你可将其替换为任意你喜欢的用户名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adduser syn</span><br></pre></td></tr></table></figure>
+
+<p>系统会让你设置一个密码，并要求填入一些基本信息，除密码外其他非必填，可按回车跳过。</p>
+<h2 id="步骤-3-—-授予管理员权限"><a href="#步骤-3-—-授予管理员权限" class="headerlink" title="步骤 3 — 授予管理员权限"></a>步骤 3 — 授予管理员权限</h2><p>现在，我们创建了一个具有常规帐户权限的新用户，但是我们有时可能需要使用它执行管理任务。</p>
+<p>为了避免必须注销普通用户并以<strong>root</strong>帐户重新登录，我们可以为普通帐户设置所谓的<em>超级用户</em>或者说<strong>root</strong>权限。</p>
+<p>以 <strong>root 用户身份</strong>运行以下命令，将新用户添加到 <strong>sudo</strong> 组：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">usermod -aG sudo syn</span><br></pre></td></tr></table></figure>
+
+<p>现在，当你以普通用户身份登录时，你可以在命令之前键入<code>sudo</code>以超级用户权限运行命令。</p>
+<h2 id="步骤-4-—-设置基本防火墙"><a href="#步骤-4-—-设置基本防火墙" class="headerlink" title="步骤 4 — 设置基本防火墙"></a>步骤 4 — 设置基本防火墙</h2><p>Debian 服务器可以使用防火墙来确保只允许与特定服务建立某些连接，在本指南中，我们将安装和使用 UFW 防火墙来帮助设置防火墙策略和管理。</p>
+<p>我们可以使用包管理器来安装 UFW，更新本地索引以检索有关可用软件包的最新信息，可以通过键入以下内容安装 UFW 防火墙：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install ufw</span><br></pre></td></tr></table></figure>
+
+<p>可以通过键入以下内容列出所有UFW防火墙可用的应用程序配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ufw app list</span><br></pre></td></tr></table></figure>
+
+<p>我们需要确保防火墙允许SSH连接，以便下次可以重新登录。通过键入以下内容来允许连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ufw allow OpenSSH</span><br></pre></td></tr></table></figure>
+
+<p>之后，我们可以通过键入以下内容来启用防火墙：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ufw <span class="built_in">enable</span></span><br></pre></td></tr></table></figure>
+
+<p>通过键入以下内容看到UFW已经允许 SSH 连接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ufw status</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">OutputStatus: active</span><br><span class="line"></span><br><span class="line">To             Action   From</span><br><span class="line">--             ------   ----</span><br><span class="line">OpenSSH          ALLOW    Anywhere</span><br><span class="line">OpenSSH (v6)     ALLOW    Anywhere (v6)</span><br></pre></td></tr></table></figure>
+
+<p>由于<strong>防火墙当前阻止除 SSH 之外的所有连接</strong>，因此，如果安装和配置其他服务，则需要调整防火墙设置以允许可接受的流量进入。</p>
+<h2 id="步骤-5-—-为普通用户启用外部访问"><a href="#步骤-5-—-为普通用户启用外部访问" class="headerlink" title="步骤 5 — 为普通用户启用外部访问"></a>步骤 5 — 为普通用户启用外部访问</h2><p>现在我们有一个日常使用的常规用户，我们需要确保我们可以直接通过SSH进入帐户。</p>
+<h3 id="如果-root-帐户使用密码身份验证"><a href="#如果-root-帐户使用密码身份验证" class="headerlink" title="如果 root 帐户使用密码身份验证"></a>如果 root 帐户使用密码身份验证</h3><p>如果你<em>使用密码</em>登录到 <strong>root</strong> 帐户，则会为 SSH 启用密码身份验证。</p>
+<p>现在，打开一个新的终端会话，并使用你的新用户名通过密码登录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh syn@your_server_ip</span><br></pre></td></tr></table></figure>
+
+<p>输入用户的密码后，你将会登录。</p>
+<h3 id="如果-root-账户使用-SSH-密钥身份验证"><a href="#如果-root-账户使用-SSH-密钥身份验证" class="headerlink" title="如果 root 账户使用 SSH 密钥身份验证"></a>如果 root 账户使用 SSH 密钥身份验证</h3><p>如果你<em>使用 SSH 密钥</em>登录到 <strong>root</strong> 帐户，则会为 SSH <em>禁用</em>密码身份验证。你需要将本地公钥的副本添加到新用户的文件中才能成功登录。</p>
+<p>由于公钥已经在服务器上的 <strong>root</strong> 帐户文件中，因此我们可以<code>cp</code>命令将该文件和目录复制到新用户目录中。之后，我们可以使用<code>chown</code>命令调整文件的所有权。</p>
+<p>请把<code>syn</code>改为你自己的用户名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp -r ~/.ssh /home/syn</span><br><span class="line">chown -R syn:syn /home/syn/.ssh</span><br></pre></td></tr></table></figure>
+
+<p>该命令将整个目录复制到新用户的主目录，并将这个目录（以及其中的所有内容）的所有者更改为你指定的（默认情况下，Debian 会创建一个与你的用户名同名的组）用户。</p>
+<p>现在，打开一个新的终端会话，并使用你的新用户名通过SSH登录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh syn@your_server_ip</span><br></pre></td></tr></table></figure>
+
+<p>现在你应该在不使用密码的情况下即可登录到新用户。</p>
+<p>请记住，如果你需要使用管理权限运行命令，请在命令之前键入<code>sudo</code>，如下所示：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo command_to_run</span><br></pre></td></tr></table></figure>
+
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>此时，你的服务器已经有了坚实的基础，你现在可以在服务器上安装所需的任何软件。</p>
+<hr><section class="comment"><div id="disqus_thread"></div></section><script>var DISQUS_PAGE_URL = "https://codersyn.github.io/2022/05/21/如何科学的使用Debian/";</script><script>var DISQUS_IDENTIFIER = "2022/05/21/如何科学的使用Debian/";</script><script>var DISQUS_SHORT_NAME = "webSyn"</script><script>var disqus_config = function() {
+  this.page.url = DISQUS_PAGE_URL;
+  this.page.identifier = DISQUS_IDENTIFIER;
+};
+
+(function() {
+  var d = document, s = d.createElement("script");
+  s.src = "https://" + DISQUS_SHORT_NAME + ".disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();</script><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><footer><section class="copyright">&copy; 2023 <a href="/">Syn</a></section><section class="intro">由<a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>驱动&middot;挂载<a target="_blank" rel="noopener" href="https://github.com/xadillax/hexo-xnew">X'new</a>主题</section></footer></article></main><script src="/scripts/han.min.js"></script><script src="/scripts/jquery.min.js"></script><script src="/scripts/jquery.backstretch.min.js"></script><script src="/scripts/highlight.pack.js"></script><script>$(function() {
+    $("header").backstretch("/images/header.jpeg");
+
+    $("figure.highlight").each(function(i, block) {
+        $(block).removeClass("highlight");
+        $(block).find("td.gutter").remove();
+        $("<pre><code class='__tobehl " + ($(block).attr("class") === "plain" ? "" : ("lang-" + $(block).attr("class"))) + "'></code></pre>").insertAfter($(block));
+        $(block).next().find("code").text((block.innerText || block.textContent));
+        $(block).remove();
+    });
+    $(".__tobehl").each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    $("article.full img").each(function() {
+        if($(this).parent().is("article")) {
+            $(this).wrap("<p style='text-align: center;'></p>");
+        } else {
+            $(this).parent().css("text-align", "center");
+        }
+    });
+
+    if($(".article-toc").children().length < 2) {
+        $(".article-toc").css("display", "none");
+    }
+});</script></body></html>
