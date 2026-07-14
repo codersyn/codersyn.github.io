@@ -21,10 +21,12 @@ main
       transition color .3s ease
       color $body-link-hover-color
   .post-meta
+    color lighten($body-color, 38%)
     color lighten($muted-color, 10%)
     display inline-block
+    font-size .82rem
+    line-height 1.6
     margin 0
-    font-size 0.6em
   article.item, article.full
     p, li, blockquote
       font-family: '喜鹊聚珍体', $cu-font-family;
@@ -37,8 +39,16 @@ main
   article blockquote
     font-family: '喜鹊聚珍体', $cu-font-family;
   article.item
-    border-bottom 1px solid hsla(0, 0, 0, .15)
+    background rgba(255, 255, 255, .94)
+    border-radius 18px
+    box-shadow 0 12px 34px rgba(0, 0, 0, .08)
+    box-sizing border-box
     color $body-color
+    padding 24px
+    transition box-shadow .3s ease, transform .3s ease
+    &:hover
+      box-shadow 0 16px 42px rgba(0, 0, 0, .12)
+      transform translateY(-2px)
     h2
       break-word normal
       color $body-color
@@ -50,21 +60,18 @@ main
       line-height 1.2em
       text-indent -2px
     p.post-excerpt
-      font-size 1em
+      color lighten($body-color, 16%)
+      font-size 1rem
+      line-height 1.85
       margin 16px 0 0 0
     &:after
-      display block
+      display none
       content ''
-      width 7px
-      height 7px
-      border darken($background-color, 12%) 1px solid
-      position relative
-      top 5px
-      left 50%
-      margin-left -5px
-      background darken($background-color, 15%)
-      border-radius 100%
-      box-shadow $background-color 0 0 0 5px
+  article.item + article.item
+    margin-top 28px
+  a.article + a.article
+    article.item
+      margin-top 28px
   div.pagination
     margin-top 20px
     > *
@@ -118,7 +125,10 @@ main
       padding 40px
       article.item
         padding 40px
-        &:after
-          top 45px
+      article.item + article.item
+        margin-top 34px
+      a.article + a.article
+        article.item
+          margin-top 34px
       .article-toc
         display block
