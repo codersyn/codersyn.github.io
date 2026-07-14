@@ -22,6 +22,7 @@ main
       color $body-link-hover-color
   .post-meta
     color lighten($body-color, 38%)
+    color lighten($muted-color, 10%)
     display inline-block
     font-size .82rem
     line-height 1.6
@@ -85,7 +86,7 @@ main
     max-width 100%
     float right
     border-radius 15px
-    border 1px solid #d3d3d3
+    border 1px solid $border-color
     padding 2rem
     margin-left 20px
     display none
@@ -102,16 +103,16 @@ main
     text-align center
     position relative
     padding 4rem 0
-    border 1px solid #d3d3d3
+    border 1px solid $border-color
     font-size 1em
     line-height 2.1em
-    color #8a8a8a
-    background #ececec
+    color $muted-color
+    background $surface-color
     a
       color lighten($body-color, 20%)
       font-weight 700
     .copyright
-      color #737373
+      color darken($muted-color, 10%)
       font-weight 500
     .intro
       font-size 0.7em
