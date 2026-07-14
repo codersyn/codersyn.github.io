@@ -9,6 +9,8 @@ main
   word-wrap break-word
   a.article
     color $body-color
+    display block
+    transition color .2s ease, opacity .2s ease, transform .2s ease
     &:last-of-type
       article
         border none
@@ -17,9 +19,16 @@ main
           border none
           box-shadow none
           padding-bottom 20px
-    &:hover h2
-      transition color .3s ease
+    &:hover h2,
+    &:focus-visible h2
       color $body-link-hover-color
+      transform translateX(4px)
+      &:after
+        transform scaleX(1)
+        transform-origin left center
+    &:focus-visible
+      outline 2px solid rgba($body-link-hover-color, .45)
+      outline-offset 6px
   .post-meta
     color lighten($body-color, 38%)
     color lighten($muted-color, 10%)
@@ -45,15 +54,30 @@ main
     box-sizing border-box
     color $body-color
     padding 24px
-    transition box-shadow .3s ease, transform .3s ease
+    transition box-shadow .2s ease, transform .2s ease
     &:hover
       box-shadow 0 16px 42px rgba(0, 0, 0, .12)
       transform translateY(-2px)
     h2
       break-word normal
       color $body-color
+      display inline-block
       margin-bottom 16px
+      position relative
+      transition color .2s ease, transform .2s ease
       word-wrap break-word
+      &:after
+        background currentColor
+        bottom -.08em
+        content ''
+        height 2px
+        left 0
+        opacity .4
+        position absolute
+        transform scaleX(0)
+        transform-origin right center
+        transition transform .2s ease
+        width 100%
     h2
       font-size 2.3em
       letter-spacing -1px
@@ -78,9 +102,15 @@ main
       margin 0 5px
     a
       color lighten($body-link-hover-color, 45%)
-    a:hover
-      transition color .3s ease
+      display inline-block
+      transition color .2s ease, opacity .2s ease, transform .2s ease
+    a:hover,
+    a:focus-visible
       color $body-link-hover-color
+      transform translateY(-1px)
+    a:focus-visible
+      outline 2px solid rgba($body-link-hover-color, .45)
+      outline-offset 4px
   .article-toc
     box-sizing border-box
     max-width 100%
@@ -109,8 +139,17 @@ main
     color $muted-color
     background $surface-color
     a
+      background linear-gradient(rgba($body-link-hover-color, .12), rgba($body-link-hover-color, .12)) 0 100% / 100% 0 no-repeat
       color lighten($body-color, 20%)
       font-weight 700
+      transition background-size .2s ease, color .2s ease
+      &:hover,
+      &:focus-visible
+        background-size 100% 42%
+        color $body-link-hover-color
+      &:focus-visible
+        outline 2px solid rgba($body-link-hover-color, .45)
+        outline-offset 3px
     .copyright
       color darken($muted-color, 10%)
       font-weight 500

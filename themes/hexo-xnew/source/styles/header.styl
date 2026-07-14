@@ -56,10 +56,32 @@ header
             content ''
         a
           color $header-li-color
-        a:hover
-          color $title-color
-          text-decoration underline
-          transition color .3s ease
+          display inline-block
+          opacity .86
+          transition color .2s ease, opacity .2s ease, transform .2s ease
+          &:after
+            background currentColor
+            bottom -.08em
+            content ''
+            height 1px
+            left 0
+            opacity .75
+            position absolute
+            transform scaleX(0)
+            transform-origin right center
+            transition transform .2s ease
+            width 100%
+          &:hover,
+          &:focus-visible
+            color $title-color
+            opacity 1
+            transform translateX(2px)
+            &:after
+              transform scaleX(1)
+              transform-origin left center
+          &:focus-visible
+            outline 2px solid rgba($title-color, .58)
+            outline-offset 4px
     .xnews-icon
       margin-top 10px
       font-family xnews-icon
@@ -67,9 +89,17 @@ header
       a
         margin 4px
         color $header-icon-color
-        &:hover
+        display inline-block
+        opacity .88
+        transition color .2s ease, opacity .2s ease, transform .2s ease
+        &:hover,
+        &:focus-visible
           color $title-color
-          transition color .3s ease
+          opacity 1
+          transform translateY(-1px)
+        &:focus-visible
+          outline 2px solid rgba($title-color, .58)
+          outline-offset 4px
   .space
     animation slide 8s linear infinite
     background-image url('../images/stars.svg')
