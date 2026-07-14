@@ -84,17 +84,42 @@ main
   .article-toc
     box-sizing border-box
     max-width 100%
-    float right
-    border-radius 15px
-    border 1px solid $border-color
-    padding 2rem
-    margin-left 20px
     display none
+    background rgba(255, 255, 255, .72)
+    border 1px solid rgba(0, 0, 0, .06)
+    border-radius 16px
+    box-shadow 0 10px 28px rgba(0, 0, 0, .05)
+    color lighten($body-color, 18%)
+    font-size .88rem
+    line-height 1.65
+    margin 18px 0 28px
+    padding 1rem 1.15rem
+    strong
+      color $body-color
+      display block
+      font-family: '喜鹊招牌体', $cu-font-family;
+      font-size 1rem
+      font-weight normal
+      margin-bottom .55rem
     ol
       list-style none
-      list-style-position inside
+      margin 0
       padding 0
-      padding-left 15px
+      ol
+        border-left 1px solid rgba(0, 0, 0, .06)
+        margin .22rem 0 .28rem .35rem
+        padding-left .75rem
+    li
+      margin .18rem 0
+    a
+      border-radius 8px
+      color lighten($body-color, 12%)
+      display block
+      padding .08rem .25rem
+      transition background .2s ease, color .2s ease
+      &:hover
+        background rgba(0, 0, 0, .035)
+        color $body-link-hover-color
   footer
     &:before
       clear both
@@ -132,3 +157,23 @@ main
           margin-top 34px
       .article-toc
         display block
+
+@media (min-width 1100px)
+  body
+    main
+      article.full
+        align-items start
+        display grid
+        gap 0 32px
+        grid-template-columns minmax(0, 1fr) 240px
+        > *
+          grid-column 1
+        .article-toc
+          align-self start
+          grid-column 2
+          grid-row 1 / span 999
+          margin 0
+          max-height calc(100vh - 48px)
+          overflow auto
+          position sticky
+          top 24px
