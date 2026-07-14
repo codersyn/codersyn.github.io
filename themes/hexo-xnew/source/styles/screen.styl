@@ -4,7 +4,7 @@
 body
   color $body-color
   margin 0
-  height 100vh
+  min-height 100vh
   font-size 16px
   flex-direction column
   .backstretch
@@ -18,10 +18,23 @@ body
       opacity .5
 
 header, main
-  overflow-y auto
-  -webkit-overflow-scrolling touch
+  box-sizing border-box
   padding 20px
 
 @import 'header.styl'
 @import 'main.styl'
 @import 'basic.styl'
+
+@media (min-width 720px)
+  body
+    align-items flex-start
+    header
+      height 100vh
+      position sticky
+      top 0
+    main
+      min-height 100vh
+
+@media (max-width 719px)
+  body
+    display block
