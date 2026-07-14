@@ -13,10 +13,37 @@ $link-article-color = $title-color
 
 $background-color = #f7f6f5
 
-$cu-font-family = -apple-system, "Helvetica Neue", Arial, "PingFang SC", "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif
+$system-sans-font-family = -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif
+$body-font-family = $system-sans-font-family
+$heading-font-family = '喜鹊招牌体', 'STKaiti', 'KaiTi', 'Kaiti SC', 'Songti SC', $system-sans-font-family
+$tagline-font-family = '喜鹊万人造字体', 'STKaiti', 'KaiTi', 'Kaiti SC', 'Songti SC', $system-sans-font-family
+$nav-font-family = '喜鹊聚珍体', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', $system-sans-font-family
+$code-font-family = "Fantasque Sans Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace
+$cu-font-family = $body-font-family
+
+// Decorative Chinese fonts are loaded only from optional local theme assets.
+// Keep licensed woff2/woff files in source/styles/font/ before enabling distribution;
+// no remote TTF fallback is used here to avoid render blocking and unclear redistribution rights.
+@font-face
+  font-family '喜鹊招牌体'
+  src url('font/xique-zhaopaiti.woff2') format('woff2'),
+      url('font/xique-zhaopaiti.woff') format('woff')
+  font-display swap
 
 @font-face
-  font-family: 'xnews-icon';  /* Project id 1265703 */
-  src: url('//at.alicdn.com/t/font_1265703_oecq9f006l.woff2?t=1631967542209') format('woff2'),
-       url('//at.alicdn.com/t/font_1265703_oecq9f006l.woff?t=1631967542209') format('woff'),
-       url('//at.alicdn.com/t/font_1265703_oecq9f006l.ttf?t=1631967542209') format('truetype');
+  font-family '喜鹊聚珍体'
+  src url('font/xique-juzhenti.woff2') format('woff2'),
+      url('font/xique-juzhenti.woff') format('woff')
+  font-display swap
+
+@font-face
+  font-family '喜鹊万人造字体'
+  src url('font/xique-wanrenzaoziti.woff2') format('woff2'),
+      url('font/xique-wanrenzaoziti.woff') format('woff')
+  font-display swap
+
+@font-face
+  font-family 'xnews-icon'  /* Project id 1265703 */
+  src url('//at.alicdn.com/t/font_1265703_oecq9f006l.woff2?t=1631967542209') format('woff2'),
+      url('//at.alicdn.com/t/font_1265703_oecq9f006l.woff?t=1631967542209') format('woff')
+  font-display swap
